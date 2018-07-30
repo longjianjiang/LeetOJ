@@ -30,3 +30,6 @@ def three_sum_closest(nums, target)
 
     target + distance
 end
+
+
+nums = [1, 3, 5, 7, 9]
