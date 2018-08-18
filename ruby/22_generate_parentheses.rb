@@ -13,6 +13,27 @@
 
 
 def generate_parenthesis(n)
+
+	# 另一种递归的思路，当n=1时，肯定只能返回(), 所以当n>1时，就可以获得n-1的答案，然后依次遍历答案List
+	# 取list中每一个字符串，然后从0-len,依次插入(), 最后返回去重后新的数组即可
+	if n == 1
+		return ["()"]
+	else
+		last = generate_parenthesis(n-1)
+		res = []
+
+		last.each do |item|
+			for i in 0..item.length
+				tmp = item.clone
+				s = tmp.insert(i, "()")
+				res << s
+			end
+		end
+
+		return res.uniq
+	end
+
+
   [].tap do |result|
   	_generate_parenthesis_(n, n, '', result)
   end 
@@ -34,4 +55,11 @@ end
 
 
 puts generate_parenthesis(2).inspect
+
+# str = "123"
+# s = str
+# s = s.insert(1, "~")
+
+# puts str
+# puts s 
 
