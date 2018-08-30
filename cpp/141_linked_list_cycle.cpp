@@ -33,6 +33,20 @@ class Solution {
 
         return isCycle; 
    }
+   
+   bool hasCycleVersionTwo(ListNode *head) {
+        set<ListNode *> nodeSeen;
+        while (head != NULL) {
+             if (nodeSeen.count(head)) {
+                 return true;
+             } else {
+                 nodeSeen.insert(head);
+             }
+             
+             head = head->next;
+        }
+        return false;
+   }
 };
 
 
