@@ -13,7 +13,7 @@ end
 # Input: 1->1->2->3->3
 # Output: 1->2->3
 
-# 给定链表要求删除重复元素的节点
+# 给定链表要求删除重复元素的节点, 保留其中一个重复的
 
 def delete_duplicates(head)
     return head if head == nil
