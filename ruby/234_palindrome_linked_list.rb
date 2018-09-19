@@ -12,6 +12,9 @@ end
 
 # 判断链表中val是否为回文
 
+# Input: 1->2->2->1
+# Output: true
+
 def reverse_list(head)
 	left, right = nil, nil
 	while head
@@ -24,8 +27,43 @@ def reverse_list(head)
 	right
 end
 
+
 def is_palindrome(head)
-    
+	len = 0
+	tail = head
+	while tail
+		len += 1
+		tail = tail.next
+	end 
+
+	return true if len <= 1
+	
+	if len == 2
+		return head.val == head.next.val
+	end 
+
+	if len == 3 
+		return head.val == head.next.next.val
+	end
+
+	slow, fast = head, head
+	while fast.next && fast.next.next
+		slow = slow.next
+		fast = fast.next.next
+	end
+
+	# fast = slow.next if fast.next == nil
+
+	reverse = reverse_list(slow.next)
+
+	while len > 0
+		return false if head.val != reverse.val
+		head = head.next
+		reverse = reverse.next
+		len -= 1
+	end
+
+	return true
 end
 
 def show_list_node_val(node)
@@ -39,8 +77,6 @@ def show_list_node_val(node)
 	str
 end
 
-l1 = ListNode.new(1, ListNode.new(2, ListNode.new(4, nil)))
-l2 = reverse_list(l1)
+l1 = ListNode.new(1, ListNode.new(1, ListNode.new(2, ListNode.new(1, nil))))
 
-puts show_list_node_val(l1)
-puts show_list_node_val(l2)
+puts is_palindrome(l1)
