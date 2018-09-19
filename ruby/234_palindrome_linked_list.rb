@@ -11,6 +11,8 @@ end
 # @return {Boolean}
 
 # 判断链表中val是否为回文
+# 首先利用快慢指针找到另一边的head，将其反转记做 `reverse`，
+# 然后head 和 reverse进行比较val即可
 
 # Input: 1->2->2->1
 # Output: true
@@ -29,22 +31,7 @@ end
 
 
 def is_palindrome(head)
-	len = 0
-	tail = head
-	while tail
-		len += 1
-		tail = tail.next
-	end 
-
-	return true if len <= 1
-	
-	if len == 2
-		return head.val == head.next.val
-	end 
-
-	if len == 3 
-		return head.val == head.next.next.val
-	end
+	return true if head.nil? || head.next.nil?
 
 	slow, fast = head, head
 	while fast.next && fast.next.next
@@ -52,15 +39,13 @@ def is_palindrome(head)
 		fast = fast.next.next
 	end
 
-	# fast = slow.next if fast.next == nil
-
+	# slow.next 就是右边的head
 	reverse = reverse_list(slow.next)
 
-	while len > 0
+	while reverse
 		return false if head.val != reverse.val
 		head = head.next
 		reverse = reverse.next
-		len -= 1
 	end
 
 	return true
