@@ -29,18 +29,25 @@ def reverse_list(head)
 	right
 end
 
+# 判断链表是否为回文，判断回文使用头尾指针，不过因为是链表，我们可以使用判断两边是否相等来判断
+# 首先找到链表中间节点，将其倒置，然后将其与head一一对比即可
+# 1-2-2-1 	=> middle=2 => 1-2-nil, 1-2-nil
+# 1-1-3-1-1	=> middle=3 => 1-1-3-nil, 1-1-3-nil
+
 
 def is_palindrome(head)
 	return true if head.nil? || head.next.nil?
 
 	slow, fast = head, head
-	while fast.next && fast.next.next
+	while fast && fast.next
 		slow = slow.next
 		fast = fast.next.next
 	end
 
-	# slow.next 就是右边的head
-	reverse = reverse_list(slow.next)
+	reverse = reverse_list(slow)
+
+	puts show_list_node_val(reverse)
+	puts show_list_node_val(head)
 
 	while reverse
 		return false if head.val != reverse.val
@@ -62,6 +69,6 @@ def show_list_node_val(node)
 	str
 end
 
-l1 = ListNode.new(1, ListNode.new(1, ListNode.new(2, ListNode.new(1, nil))))
+l1 = ListNode.new(1, ListNode.new(1, ListNode.new(3, ListNode.new(1, ListNode.new(1,nil)))))
 
 puts is_palindrome(l1)
