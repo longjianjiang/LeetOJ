@@ -105,16 +105,20 @@ def show_list_node_val(node)
 end
 
 l1 = ListNode.new(1, ListNode.new(4, ListNode.new(3, ListNode.new(2, ListNode.new(5, ListNode.new(2, nil))))))
-l2 = partition_version_2(l1, 3)
-puts show_list_node_val(l2)
+# l2 = partition_version_2(l1, 3)
+# puts show_list_node_val(l2)
 
 
-# def swap(a, b, vars)
-# 	tmp = a
-# 	eval "a = b", vars
-# 	eval "b = #{tmp}", vars
-# end
+def swap(a, b, vars)
+	tmp = a
+	eval "a = b", vars
+	eval "b = #{tmp}", vars
+end
 
-# a, b = 5, 7
-# swap(a, b, binding)
-# puts "a = #{a}, b = #{b}"
+def swap(a, b)
+	a, b = b, a 
+end
+
+a, b = 5, 7
+swap(a, b)
+puts "a = #{a}, b = #{b}"
