@@ -19,14 +19,14 @@ end
 # 将原链表中小于x的存到一个新的链表，同时原链表中移除该节点，最后将新链表拼接在原链表之前即可
 
 
-def append_list(head, tail, node, vars)
+def append_list(left, right, node, vars)
 	if head.nil?
-		eval "head = node", vars
-		eval "tail = node", vars
+		eval "left = node", vars
+		eval "right = node", vars
 		# head, tail = node, node
 	else
-		eval "tail.next = node", vars
-		eval "tail = node", vars
+		eval "right.next = node", vars
+		eval "right = node", vars
 		# tail.next = node
 		# tail = node
 	end
@@ -105,8 +105,8 @@ def show_list_node_val(node)
 end
 
 l1 = ListNode.new(1, ListNode.new(4, ListNode.new(3, ListNode.new(2, ListNode.new(5, ListNode.new(2, nil))))))
-# l2 = partition_version_2(l1, 3)
-# puts show_list_node_val(l2)
+l2 = partition_version_2(l1, 3)
+puts show_list_node_val(l2)
 
 
 def swap(a, b, vars)
@@ -119,6 +119,6 @@ def swap(a, b)
 	a, b = b, a 
 end
 
-a, b = 5, 7
-swap(a, b)
-puts "a = #{a}, b = #{b}"
+# a, b = 5, 7
+# swap(a, b, binding)
+# puts "a = #{a}, b = #{b}"
