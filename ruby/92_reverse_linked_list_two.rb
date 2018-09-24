@@ -46,10 +46,67 @@ def reverse_between(head, m, n)
 	node.next
 end
 
+
+# 用四个节点记录区间节点以及他们的前一个和后一个
+# 将区间倒置，然后拼接到前一个和后一个即可
+
 def reverse_between_version2(head, m, n)
-	
+	return head if head.nil? || n<=m
+
+	start, prev = nil, nil
+	last, tail = nil, nil
+
+	p, k = head, 1
+	while p && k <= n
+		if k == m-1
+			prev = p
+			start = p.next
+		end
+
+		if k == n
+			last = p 
+			tail = p.next
+		end
+
+		p = p.next
+		k += 1
+	end
+
+	if prev.nil?
+		start = head
+	end
+
+	# n 大于链表长度
+	if last.nil?
+		return head
+	end
+
+	p = start
+	last.next = nil
+	q = reverse(start)
+
+	if prev
+		prev.next = q
+	else
+		head = last
+	end
+
+	p.next = tail
+
+	head
 end
 
+def reverse(head)
+	p, q = nil, nil
+	while head
+		p = head
+		head = head.next
+		p.next = q 
+		q = p 
+	end
+
+	q
+end
 
 def show_list_node_val(node)
 	str = ""
@@ -63,6 +120,6 @@ def show_list_node_val(node)
 end
 
 l1 = ListNode.new(1, ListNode.new(2, ListNode.new(3, ListNode.new(4, ListNode.new(5,nil)))))
-l3 = reverse_between(l1, 2, 4)
-# puts show_list_node_val(l3)
+l3 = reverse_between(l1, 1, 4)
+puts show_list_node_val(l3)
 
