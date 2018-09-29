@@ -5,7 +5,4 @@ commit_command = "git commit -m '#{commit_msg}' "
 
 `git add .`
 `#{commit_command}`
-
-# exec(`git add .`)
-# git commit -m commit_msg
-# git push origin master
+`git push origin master`
