@@ -17,3 +17,17 @@ def h_index(citations)
     end
     citations.size
 end
+
+# 首先将数组排序（升序），然后遍历数组，取[len-idx, [idx]] 中的min，然后和res中取大的
+def h_indx_version2(citations)
+	res = 0
+	citations.sort.each_with_index do |item, idx|
+		res = [res, [citations.size-idx, item].min].max
+	end
+
+	res
+end
+
+
+nums = [9,0,7,1,5]
+puts h_index(nums)
