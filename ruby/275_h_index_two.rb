@@ -13,14 +13,13 @@
 
 # 重复
 
-# 直到left>right, 此时返回len-left 即可（会过滤一些边界情况）
+# 直到left>right, 返回len-left 即可，此时left即为最小的，所以len-left也就是最大的（会过滤一些边界情况）
 
 def h_index(citations)
 	left, right = 0, citations.size-1
 	
 	while left <= right
 		mid = left + (right-left)/2
-		puts mid
 		case citations.size-mid <=> citations[mid]
 		when 0
 			return citations.size-mid
