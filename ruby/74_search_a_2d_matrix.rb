@@ -35,3 +35,26 @@ def search_matrix(matrix, target)
     end
     return false
 end
+
+# 因为这种二维数组可以当作S型的一维数组来处理，所以二分查找也就可以只查一次
+# 不过取下标得转下，其实就是一个除和取余的组合
+
+def search_matrix_version2(matrix, target)
+	return false if matrix.empty? || matrix[0].empty?
+
+	m, n = matrix.size, matrix[0].size
+	left, right = 0, m*n - 1
+	while left <= right
+		mid = left + (right-left)/2
+		case matrix[mid/n][mid%n] <=> target
+		when 0
+			return true
+		when 1
+			right = mid - 1
+		when -1
+			left = mid + 1
+		end
+	end
+
+	return false
+end

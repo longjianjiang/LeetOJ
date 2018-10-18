@@ -3,6 +3,9 @@
 # @return {Boolean}
 
 
+# 给定二维数组，数组每行从左往右是升序，每列从上到下也是升序
+# 我们可以从左下角的数为起点，进行查找，这样每次[x][y] 正好是二维数组中的一个元素，循环遍历即可
+
 def search_matrix(matrix, target)
     return false if matrix.empty? || matrix[0].empty?
 
