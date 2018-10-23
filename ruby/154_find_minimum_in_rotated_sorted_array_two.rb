@@ -31,5 +31,32 @@ def find_min(nums)
 	-1
 end
 
+
+# 不过既然使用了二分，也是可以用mid的方法来写
+def find_min_version2(nums)
+	return -1 if nums.empty?
+	return nums[0] if nums.size == 1 || nums[0] < nums[nums.size-1]
+
+	res = nums[0]
+	left, right = 0, nums.size-1
+	while left < right-1
+		mid = left + (right-left)/2
+		if nums[left] < nums[mid]
+			res = [res, nums[left]].min 
+			left = mid+1
+		elsif nums[left] > nums[mid]
+			res = [res, nums[right]].min 
+			right = mid
+		else
+			left += 1
+		end
+	end
+
+	res = [res, nums[left]].min 
+	res = [res, nums[right]].min
+	res
+end
+
+
 nums = [1, 1]
 puts find_min(nums)
