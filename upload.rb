@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
-puts "enter commit message"
-commit_msg = gets.chomp
+#puts "enter commit message"
+#commit_msg = gets.chomp
+commit_msg = "auto commit"
 commit_command = "git commit -m '#{commit_msg}' "
 
 `git add .`
