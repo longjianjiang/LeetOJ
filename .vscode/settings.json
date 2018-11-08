@@ -1,7 +1,8 @@
 {
     "files.associations": {
         "vector": "cpp",
-        "queue": "cpp"
+        "queue": "cpp",
+        "unordered_map": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
