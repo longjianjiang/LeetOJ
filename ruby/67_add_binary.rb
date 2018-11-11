@@ -11,29 +11,6 @@
 # 将两个字符串从低位开始相加处理好进位，依次添加到字符串中即可
 
 def add_binary(a, b)
-    a, b = b, a if a.size < b.size
-
-    a, b = a.reverse, b.reverse
-    res = ""
-    sum, carry = 0, 0
-    for i in 0...a.size
-    	if i < b.size
-    		sum = carry + (a[i].to_i ^ b[i].to_i)
-	    	carry = a[i].to_i & b[i].to_i
-	    else
-	    	sum = carry ^ a[i].to_i
-	    	carry = carry & a[i].to_i
-    	end
-    	
-    	res << sum.to_s
-    end
-
-    res << carry.to_s
-
-    res.reverse
-end
-
-def add_binary_version2(a, b)
 	a, b = b, a if a.size < b.size
 
 	a, b = a.reverse, b.reverse
@@ -56,5 +33,6 @@ def add_binary_version2(a, b)
     res
 end
 
-a, b = "11", "1"
-puts add_binary_version2(a,b)
+
+a, b = "0", "0"
+puts add_binary(a,b)
