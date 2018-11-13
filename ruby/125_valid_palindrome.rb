@@ -8,7 +8,7 @@ def is_palindrome(s)
     return true if s.empty?
 
     left, right = 0, s.size-1
-    while left <= right
+    while left < right
         if /[a-zA-Z0-9]/.match(s[left]) == nil
             left += 1
             next
