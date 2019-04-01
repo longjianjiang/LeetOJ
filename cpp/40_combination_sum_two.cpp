@@ -3,6 +3,8 @@
 
 using namespace std;
 
+// 类似39题，只是此题要求不允许重复使用数组中的元素
+
 class Solution {
 private:
     void dfs(int idx, int target, int right, vector<int>& nums, vector<int>& chosen, vector<vector<int>>& res) {

@@ -3,6 +3,9 @@
 
 using namespace std;
 
+// 给定数组和target，要求返回数组元素组合的和为target。同时允许重复使用数组中的元素。
+// 组合类问题可以通过回溯发来进行
+
 class Solution {
 private:
     void dfs(int idx, int target, int right, vector<int>& nums, vector<int>& chosen, vector<vector<int>>& res) {

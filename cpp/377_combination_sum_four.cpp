@@ -3,6 +3,10 @@
 
 using namespace std;
 
+// 类似29题，此题不要求返回所有组合，仅仅返回组合的个数即可
+// 同时要求组合允许从头部开始继续寻找，所以搜索中每次从头开始搜索，这样会很耗时，提交后会超时。
+// 所以只能换种思路，使用动态规划来做
+
 class Solution {
 private:
     void dfs(int idx, int target, int right, vector<int>& nums, vector<int>& chosen, vector<vector<int>>& res) {
@@ -31,6 +35,8 @@ private:
     }
 public:
     int combinationSum4(vector<int>& nums, int target) {
+        // time limit exceeded
+        /*
         sort(nums.begin(), nums.end());
         vector<vector<int>> res;
         vector<int> chosen;
@@ -38,5 +44,18 @@ public:
 
         dfs(0, target, right, nums, chosen, res);
         return (int)res.size();
+        */
+
+       // dp
+       vector<int> dp(target + 1);
+       dp[0] = 1;
+       sort(nums.begin(), nums.end());
+       for (int i = 1; i <= target; ++i) {
+           for (auto num: nums) {
+               if (i < num) { break; }
+               dp[i] += dp[i - num];
+           }
+       }
+       return dp.back();
     }
 };

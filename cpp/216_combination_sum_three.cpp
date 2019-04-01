@@ -3,6 +3,8 @@
 
 using namespace std;
 
+// 类似29题，nums其实就是1-9，同时对组合的个数有要求
+
 class Solution {
 private:
     void dfs(int idx, int target, int right, int count, vector<int>& nums, vector<int>& chosen, vector<vector<int>>& res) {
