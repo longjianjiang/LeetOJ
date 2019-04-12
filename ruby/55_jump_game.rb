@@ -18,4 +18,3 @@ def can_jump(nums)
 
 	false
 end
-
