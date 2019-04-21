@@ -21,13 +21,23 @@ end
 def max_profit_2(prices)
     return 0 if prices.size < 2
 
-    prices.each do |idx, num|
+    buy = 0
+    profit = 0
+    idx = 1
+
+    while idx < prices.size
+        if prices[i] > prices[i-1]
+            profit += prices[i] - prices[buy]
+        end
+
+        buy = idx
+        idx += 1
     end
+
+    profit
 end
 
 arr = [1,2,3,4,5]
 
-arr.each do |idx, num|
-    puts "idx = #{idx}, num = #{num}"
-end
+
 
