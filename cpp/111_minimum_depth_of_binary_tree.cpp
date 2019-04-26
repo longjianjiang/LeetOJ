@@ -18,19 +18,19 @@ public:
 		int index = 0;
 		while (!q.empty()) {
 			int size = q.size();
-			if (size < pow(2, index)) { return res.size(); }
+			vector<int> level;
 
 			for(int i = 0; i < size; ++i) {	
-				TreeNode *node = q.top();
+				TreeNode *node = q.front();
 				q.pop();
 
+				if (!node->left && !node->right) { return res.size()+1; }
 				level.push_back(node->val);
 				if (node->left) { q.push(node->left); }
 				if (node->right) { q.push(node->right); }
 			}
 
-			res.push(level);
-			index++;
+			res.push_back(level);
 		}
         return res.size();
     }
