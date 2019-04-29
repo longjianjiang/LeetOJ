@@ -8,6 +8,7 @@
  * };
  */
 // 给定二叉树，返回树的最小高度
+// 依然是先层序遍历，如果某一层的节点是叶子节点，那么就找到了最小高度
 class Solution {
 public:
     int minDepth(TreeNode* root) {
