@@ -61,6 +61,5 @@ public:
 			if (path[minSize-1] == endWord) { res.push_back(path); }
 		}
 		return res;
-
     }
 };
