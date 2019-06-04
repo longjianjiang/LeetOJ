@@ -32,4 +32,27 @@ public:
         
         return res;
     }
+
+	vector<vector<int>> pathSumIteration(TreeNode* root, int sum) {
+		if (!root) { return {}; }
+		stack<TreeNode *> s;
+		s.push(root);
+
+		vector<vector<int>> res; vector<int> chosen;
+		while(!s.empty()) {
+			auto node = s.top(); s.pop();
+			chosen.push_back(node->val);
+			
+			if (!node->left && !node->right && accumulate(chosen.begin(), chosen.end(), 0) == sum) {
+				res.push_back(chosen);
+				chosen.clear();
+			}
+
+			if (node->right) { s.push(node->right); }
+			if (node->left) { s.push(node->left); }
+
+		}
+
+		return res;
+	}
 };
