@@ -33,24 +33,40 @@ public:
         return res;
     }
 
+	// 使用迭代的方式
+	// 中序遍历获取每条从根到叶子的路径，有一个需要注意的地方在于移除节点，需要额外增加一个指针来判断右节点是否添加过，否则需要进行移除
 	vector<vector<int>> pathSumIteration(TreeNode* root, int sum) {
 		if (!root) { return {}; }
-		stack<TreeNode *> s;
-		s.push(root);
 
-		vector<vector<int>> res; vector<int> chosen;
-		while(!s.empty()) {
-			auto node = s.top(); s.pop();
-			chosen.push_back(node->val);
-			
-			if (!node->left && !node->right && accumulate(chosen.begin(), chosen.end(), 0) == sum) {
-				res.push_back(chosen);
-				chosen.clear();
+		vector<vector<int>> res;
+		vector<TreeNode *> s;
+		TreeNode *pointer = root, *pre = NULL;
+		int total = 0;
+
+		while(!s.empty() || pointer) {
+			while(pointer) {
+				s.push_back(pointer);
+				total += pointer->val;
+				pointer = pointer->left;
 			}
 
-			if (node->right) { s.push(node->right); }
-			if (node->left) { s.push(node->left); }
+			pointer = s.back();
+			if (!pointer->left && !pointer->right && total == sum) {
+				vector<int> v;
+				for (auto n : s) {
+					v.push_back(n->val);
+				}
+				res.push_back(v);
+			}
 
+			if (pointer->right && pointer->right != pre) { // remove right child's parent node
+				pointer = pointer->right;
+			} else {
+				total -= pointer->val;
+				pre = pointer;
+				s.pop_back();
+				pointer = NULL;
+			}
 		}
 
 		return res;
