@@ -15,6 +15,36 @@ public:
     vector<int> postorderTraversal(TreeNode* root) {
        if (!root) { return {}; } 
 
+	   vector<int> res;
+	   stack<TreeNode *> s;
+	   auto pointer = root;
+	   while (pointer) {
+		   s.push(pointer);
+		   pointer = pointer->left;
+	   }
+
+	   while(!s.empty()) {
+		   bool leftVisited = false, rightVisited = false;
+
+		   if (pointer && s.top()->left == pointer) {
+			   leftVisited = true;
+		   } else if (pointer && s.top()->right == pointer) {
+			   leftVisited = rightVisited = true;
+		   }
+
+		   pointer = s.top();
+
+		   if (pointer->left && !leftVisited) {
+			   s.push(pointer->left);
+		   } else if (pointer->right && !rightVisited) {
+			   s.push(pointer->right);
+		   } else {
+			   res.push_back(pointer->val);
+			   s.pop();
+		   }
+	   }
+
+	   return res;
     }
 
 	vector<int> postorderTraversalUsePreOrder(TreeNode *root) {
