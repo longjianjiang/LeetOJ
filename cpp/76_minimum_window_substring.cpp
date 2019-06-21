@@ -12,65 +12,54 @@ using namespace std;
 class Solution {
 public:
     string minWindow(string s, string t) {
-		if (s == t) { return s; }
-		if (t.size() > s.size()) { return ""; }
-
-		int pos1 = 0, pos2 = 0;
-		unordered_set<char> us, needed;
-		for(int i = 0; i < t.size(); ++i) {
-			us.insert(t[i]);
-			needed.insert(t[i]);
+        if (s == t) { return s; }
+        if (t.size() > s.size()) { return ""; }
+        
+		unordered_map<char, int> dict;
+		for (char ch: t) {
+			if (dict.find(ch) != dict.end()) {
+				dict[ch]++;
+			} else {
+				dict[ch] = 1;
+			}
 		}
+		int left = 0, right = 0;
+		int count = t.size();
+		int len = INT_MAX;
+		string resStr = "";
 
-		string retStr = "";
-		int len = s.size() + t.size();
-		bool flag = false;
-		while(pos1 < s.size()) {
-			if (!flag && us.empty()) {
-				if (needed.find(s[pos2]) != needed.end()) {
-					for(int i = 0; i < t.size(); ++i) {
-						if (t[i] != s[pos2]) {
-							us.insert(t[i]);
-						}
-					}
-					pos1 = pos2+1;
-					continue;
-				}	
-				pos2++;
-				continue;
+		while (right < s.size()) {
+			if (dict[s[right]] > 0) {
+				count--;
 			}
-			char ch = s[pos1];
-			if (!flag && us.find(ch) == us.end()) {
-				pos2 = ++pos1;
-				continue;
+			dict[s[right]]--;
+			right++;
+
+			while (count == 0) {
+				if (right-left < len) {
+					len = right-left;
+					resStr = s.substr(left, len); 
+				}
+				dict[s[left]]++;
+				if (dict[s[left]] > 0) {
+					count++;
+				}
+				left++;
 			}
-			flag = true;
-			if (us.find(ch) != us.end()) {
-				us.erase(ch);
-				if (us.empty()) {
-					flag = false;
-					string sub = s.substr(pos2, pos1-pos2+1);
-					cout << sub << endl;
-					if (sub.size() < len) { retStr = sub; len = sub.size(); }
-					pos2++;;
-					continue;
-				} 
-			}
-			pos1++;
 		}
-
-		return retStr;
+		return resStr;
     }
 };
 
 void unit_test() {
 	Solution s;
 
-	assert(s.minWindow("ADOBECODEBANC", "ABC") == "BANC");
+	
 	assert(s.minWindow("a", "b") == "");
 	assert(s.minWindow("a", "aa") == "");
 	assert(s.minWindow("bdab", "ab") == "ab");
 	assert(s.minWindow("ab", "a") == "a");
+	assert(s.minWindow("bbaa", "aba") == "baa");
 }
 
 int main(){
