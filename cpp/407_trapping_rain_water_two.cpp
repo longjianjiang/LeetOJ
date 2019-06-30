@@ -35,11 +35,11 @@ public:
 			maxHeight = max(maxHeight, height);
 
 			for (auto point: around) {
-				x += point[0]; y += point[1];
-				if (x >= row || y >= col || x < 0 || y < 0 || visited[x][y]) { continue; }
-				visited[x][y] = 1;
-				if (heightMap[x][y] < maxHeight) { resVal += maxHeight - heightMap[x][y]; }
-				pq.push(make_pair(heightMap[x][y], x * col + y));
+				int xx = x + point[0], yy = y + point[1];
+				if (xx >= row || yy >= col || xx < 0 || yy < 0 || visited[xx][yy]) { continue; }
+				visited[xx][yy] = 1;
+				if (heightMap[xx][yy] < maxHeight) { resVal += maxHeight - heightMap[xx][yy]; }
+				pq.push(make_pair(heightMap[xx][yy], xx * col + yy));
 			}
 		}
 
