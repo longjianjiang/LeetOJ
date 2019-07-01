@@ -9,6 +9,8 @@
 #include <unordered_map>
 using namespace std;
 
+// 二维的取坑，首先必须大于等于3*3才能形成坑，矩形的边界是无法形成坑的，
+// 所以从边界开始，依次遍历最小的高度，如果上下左右四个周围的点存在并且未被访问过，加入堆中，同时标记为已访问，这个时候如果周围的高度小于当前最小高度，那么差值部分就是形成的坑；
 class Solution {
 public:
     int trapRainWater(vector<vector<int>>& heightMap) {

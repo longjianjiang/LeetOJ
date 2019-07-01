@@ -10,7 +10,7 @@
 using namespace std;
 
 // 给定高度数组，要求返回坑的个数，当三个数的时候有可能形成坑
-// 用栈来记录这个关系
+// 用栈来记录这个关系，这个时候每次记录的坑是水平方向的；
 class Solution {
 public:
     int trap(vector<int>& height) {
@@ -38,6 +38,7 @@ public:
 		return resVal;
     }
 
+	// 使用左右指针的方式，每次记录的坑是垂直方向的，从两边固定一个共同的最小高度，比这个高度还小的即可以形成坑
 	int trap_two_pointer(vector<int>& height) {
 		if (height.size() <= 2) { return 0; }
 
