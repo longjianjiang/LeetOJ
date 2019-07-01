@@ -37,6 +37,25 @@ public:
 
 		return resVal;
     }
+
+	int trap_two_pointer(vector<int>& height) {
+		if (height.size() <= 2) { return 0; }
+
+		int resVal = 0, borderHeight = 0;
+		int left = 0, right = (int)height.size() - 1;
+		while (left <= right) {
+			int curHeight = min(height[left], height[right]);	
+			if (curHeight < borderHeight) {
+				resVal += borderHeight - curHeight;
+			} else {
+				borderHeight = curHeight;
+			}
+
+			height[left] <= height[right] ? left++ : right--;
+		}
+
+		return resVal;
+	}
 };
 
 void unit_test() {
@@ -44,6 +63,7 @@ void unit_test() {
 
 	vector<int> heights = {0,1,0,2,1,0,1,3,2,1,2,1};
 	assert(s.trap(heights) == 6);
+	assert(s.trap_two_pointer(heights) == 6);
 }
 
 int main() {
