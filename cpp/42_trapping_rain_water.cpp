@@ -9,6 +9,8 @@
 #include <unordered_map>
 using namespace std;
 
+// 给定高度数组，要求返回坑的个数，当三个数的时候有可能形成坑
+// 用栈来记录这个关系
 class Solution {
 public:
     int trap(vector<int>& height) {
