@@ -64,6 +64,37 @@ public:
 			}
 		}
     }
+
+	// 使用dfs，从边界寻找到O，然后dfs搜索四周是否存在O，将O改成其他字符，
+	// 进行第二次遍历，将O替换为X，此时的O是被#包围的，将其他字符替换回O。
+    void solve_dfs(vector<vector<char>>& board) {
+		if (board.empty()) { return; }
+
+		int row = board.size(), col = board[0].size();
+		int count = row * col;
+
+		for (int i = 0; i < count; ++i) {
+			int x = i / col, y = i % col;
+			if (x == 0 || x == row-1 ||  y == 0 || y == col-1) {
+				if (board[x][y] == 'O') { dfs(board, x, y); }
+			}
+		}
+
+		for (int i = 0; i < count; ++i) {
+			int x = i / col, y = i % col;
+			if (board[x][y] == 'O') { board[x][y] = 'X'; }
+			if (board[x][y] == '#') { board[x][y] = 'O'; }
+		}
+	}
+
+	void dfs(vector<vector<char>>& board, int x, int y) {
+		board[x][y] = '#';
+		if (x+1 < board.size() && board[x+1][y] == 'O') { dfs(board, x+1, y); }
+		if (x-1 > 0 && board[x-1][y] == 'O') { dfs(board, x-1, y); }
+		if (y+1 < board[0].size() && board[x][y+1] == 'O') { dfs(board, x, y+1); }
+		if (y-1 > 0 && board[x][y-1] == 'O') { dfs(board, x, y-1); }
+	}
+
 };
 
 
