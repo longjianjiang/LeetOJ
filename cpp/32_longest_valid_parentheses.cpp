@@ -40,4 +40,33 @@ public:
 		}
 		return res;
     }
+
+	// 使用dp，dp[i]表示字符串从0开始到i-1的最长字串。
+	// s[i-1]为`)`，此时分两种情况：
+	// 1> s[i-2] 为`(`, 此时dp[i] = dp[i-2] + 2; 也就是类似"()"这种case。
+	// 2> s[i-2] 为`)`, 这种情况需要判断，类似"()(())"这种case，
+	// prev = i - dp[i-1] - 2; 当s[prev]为'(', dp[i] = dp[i-1] + dp[prev] + 2;
+	
+	int longestValidParentheses_dp(string s) {
+		if (s.size() < 2) { return 0; }
+		
+		int nsize = s.size(), res = 0;
+		vector<int> dp(nsize + 1, 0);
+
+		for (int i = 1; i <= nsize; ++i) {
+			if (s[i-1] == ')') {
+				if (i-2 < 0) { continue; }
+				if (s[i-2] == '(') {
+					dp[i] = dp[i-2] + 2;
+				} else if (s[i-2] == ')') {
+					int prev = i - dp[i-1] - 2;
+					if (prev >= 0 && s[prev] == '(') {
+						dp[i] = dp[i-1] + dp[prev] + 2;
+					}
+				}
+				res = max(res, dp[i]);
+			}
+		}
+		return res;
+	}
 };
