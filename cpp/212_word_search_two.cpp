@@ -47,28 +47,33 @@ public:
 };
 
 class Solution {
+	vector<pair<int, int>> edges = { {0, 1}, {0, -1}, {1, 0}, {-1, 0}};
 public:
 
-	void dfs(vector<vector<char>>& board, TrieNode* node, vector<vector<bool>>& marks, int x, int y, int w, int h, string chosen, unordered_set<string>& us) {
-		if (x < 0 || y < 0 || x >= h || y >= w) { return; }
-		if (marks[x][y]) { return; }
+	void dfs(vector<vector<char>>& board, TrieNode* node,  int x, int y, string& chosen, vector<string>& us) {
+		int h = (int)board.size();
+		int w = (int)board[0].size();
 
-		char c = board[x][y];
-		chosen += c;
-		TrieNode *child = node->children[c - 'a'];
-		if (child == nullptr) {
-			return;
-		} else {
-			if (child->is_end) { us.insert(chosen); }
-			node = child;
-		}
+        int idx = (int)(board[x][y] - 'a');
+		if (node->children[idx] == nullptr) { return; }
+		node = node->children[idx];
 
-		marks[x][y] = true;
-		dfs(board, node, marks, x+1, y, w, h, chosen, us);
-		dfs(board, node, marks, x-1, y, w, h, chosen, us);
-		dfs(board, node, marks, x, y+1, w, h, chosen, us);
-		dfs(board, node, marks, x, y-1, w, h, chosen, us);
-		marks[x][y] = false;
+        chosen.push_back(board[x][y]);
+        if (node->is_end) {
+            us.push_back(chosen);
+            node->is_end = false; // case ['a'] ["a", "a"]
+        }
+
+		// replace marks flag
+        board[x][y] = '$';
+        for (auto edge : edges) {
+            int nx = x+edge.first, ny = y+edge.second;
+            if (nx < 0 || ny < 0 || nx >= h || ny >= w) { continue; }
+            if (board[nx][ny] == '$') { continue; }
+            dfs(board, node, nx, ny, chosen, us);
+        }
+        board[x][y] = chosen.back();
+        chosen.pop_back();
 	}
 
     vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
@@ -82,16 +87,15 @@ public:
 			trie->insert(word);
 		}
 
-		vector<vector<bool>> marks(h, vector(w, false));
-		unordered_set<string> us;
-
+		vector<string> us;
+		string chosen;
 		for (int i = 0; i < h; ++i) {
 			for (int j = 0; j < w; ++j) {
-				dfs(board, trie->get_root(), marks, i, j, w, h, "", us);
+				dfs(board, trie->get_root(), i, j, chosen, us);
 			}
 		}
 
-		return {us.begin(), us.end()};
+		return us;
     }
 };
 
