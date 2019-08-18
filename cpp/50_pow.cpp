@@ -9,6 +9,13 @@
 #include <unordered_map>
 using namespace std;
 
+// 计算x的n次方
+// 二分的思想来求，时间复杂度降到logN;
+// 10	2
+// 5	4
+// 2	16
+// 1	256
+// 二分一下 2^10 = 2^2 * 2^8 = 4 * 256 = 1024
 class Solution {
 public:
     double myPow(double x, int n) {

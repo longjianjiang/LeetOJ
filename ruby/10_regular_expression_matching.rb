@@ -50,9 +50,9 @@ def is_match(s, sBegin, p, pBegin)
 
 end
 
-
-
-
+puts is_match("a", 0, "**", 0)
+puts is_match("a", 0, "*", 0)
+puts is_match("mi", 0, "mis*", 0)
 
 
 
