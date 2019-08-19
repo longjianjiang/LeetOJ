@@ -15,7 +15,7 @@ public:
     bool isMatch(string s, string p) {
 		if (p.empty()) { return s.empty(); }
 
-		bool first_match = s.size() > 1 && (p[0]==s[0] || p[0]=='.');
+		bool first_match = s.size() > 0 && (p[0]==s[0] || p[0]=='.');
 
 		if (p.size() == 1) { return s.size() == 1 && first_match; }
 

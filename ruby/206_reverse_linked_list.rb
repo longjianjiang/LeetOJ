@@ -73,4 +73,6 @@ end
 
 l1 = ListNode.new(1, ListNode.new(2, ListNode.new(3, ListNode.new(4, ListNode.new(5, ListNode.new(6, nil))))))
 l2 = reverse_list_version2(l1)
+
+puts show_list_node_val(l1)
 puts show_list_node_val(l2)
