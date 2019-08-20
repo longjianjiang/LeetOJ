@@ -71,7 +71,20 @@ def show_list_node_val(node)
 	str
 end
 
+# 1 2 3 4 5 6
+def reverse_print(head)
+    return if head.nil?
+
+    if (head.next) 
+        reverse_print(head.next)
+    end
+
+    puts head.val
+end
+
 l1 = ListNode.new(1, ListNode.new(2, ListNode.new(3, ListNode.new(4, ListNode.new(5, ListNode.new(6, nil))))))
+reverse_print(l1)
+puts "xxxxxx"
 l2 = reverse_list_version2(l1)
 
 puts show_list_node_val(l1)

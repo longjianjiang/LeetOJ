@@ -34,4 +34,14 @@ public:
 
         return reverse;
     }
+
+	ListNode* reverseList_recursive(ListNode* head) {
+		if (!head || !head->next) { return head; }
+
+		auto reverse = reverseList_recursive(head->next);
+		head->next->next = head;
+		head->next = NULL;
+
+		return reverse;
+	}
 };
