@@ -113,12 +113,22 @@ public:
 
 				if (y1+1 < col && grid[x1][y1+1] == '1') {
 					q.push({x1, y1+1});
-					grid[x1][y1] = '$';
+					grid[x1][y1+1] = '$';
 				}
 
 				if (x1+1 < row && grid[x1+1][y1] == '1') {
 					q.push({x1+1, y1});
 					grid[x1+1][y1] = '$';
+				}
+
+				if (x1-1 >= 0 && grid[x1-1][y1] == '1') {
+					q.push({x1-1, y1});
+					grid[x1-1][y1] = '$';
+				}
+
+                if (y1-1 >= 0 && grid[x1][y1-1] == '1') {
+					q.push({x1, y1-1});
+					grid[x1][y1-1] = '$';
 				}
 			}
 		}
