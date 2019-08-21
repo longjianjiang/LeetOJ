@@ -6,8 +6,7 @@
 #include <map>
 #include <set>
 #include <unordered_set>
-#include <unordered_map>
-using namespace std;
+#include <unordered_map> using namespace std;
 
 // n皇后问题，给定n返回解的个数。
 // 这里使用一维数组，pos[i] 表示第i行的Q放在了哪一列上，可以节省空间。
@@ -56,4 +55,27 @@ public:
 		dfs(pos, 0, res);
 		return res;
     }
+
+	int dfs_bit(int n, int a, int b, int c) {
+		unsigned mask = (1 << n) - 1;
+		if (b == mask) { return 1; }
+
+		unsigned d = ~(a | b | c);
+		d &= mask;
+
+		int res = 0;
+		while (d) {
+			unsigned ok = d & -d;
+			res += dfs_bit(n, (a | ok) << 1, b | ok, (c | ok) >> 1);
+			d -= ok;
+		}
+		return res;
+	}
+
+	int totalNQueens_bit(int n) {
+		if (n < 0 || n >= 32) { return 0; }
+		if (n == 1) { return 1; }
+
+		return dfs_bit(n, 0, 0, 0);
+	}
 };
