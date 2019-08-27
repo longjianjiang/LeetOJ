@@ -11,6 +11,7 @@ using namespace std;
 
 class Solution {
 public:
+	// sliding window
     int lengthOfLongestSubstring(string s) {
 		if (s.empty()) { return 0; }
 		int retVal = 0;
@@ -28,6 +29,32 @@ public:
 		}
 		return retVal; 
     }
+
+	// two pointer
+	int lengthOfLongestSubstring_tp(string s) {
+		if (s.empty()) { return 0; }
+		if (s.size() == 1) { return 1; }
+
+		int res = 0;
+		int left = 0, right = 0;
+		unordered_set<char> us;
+		while (right < s.size()) {
+			char ch = s[right];
+			if (us.find(ch) != us.end()) {
+				while (ch != s[left]) {
+					us.erase(s[left]);
+					++left;
+				}	
+				++left;
+			} else {
+				us.insert(ch);
+				res = max(res, right-left+1);
+			}
+			++right;
+		}
+
+		return res;
+	}
 };
 
 void unit_test() {
