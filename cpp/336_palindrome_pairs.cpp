@@ -10,13 +10,6 @@
 #include <unordered_map>
 using namespace std;
 
-
-struct TrieNode {
-	bool is_end = false;
-	int idx = -1;
-	array<TrieNode *, 26> children = { nullptr };
-};
-
 bool is_palindrome(string word) {
 	int left = 0, right = (int)word.size()-1;
 	while (left < right) {
@@ -26,45 +19,12 @@ bool is_palindrome(string word) {
 	return true;
 }
 
-class Trie {
-private:
-	TrieNode *root;
-
-public:
-	Trie() {
-		root = new TrieNode();
-	}
-
-	~Trie() {
-		delete root;
-		root = nullptr;
-	}
-
-	void insert(const string word, int idx) {
-		auto node = root;
-		for (auto ch : word) {
-			int idx = ch - 'a';
-			if (node->children[idx] == nullptr) {
-				node->children[idx] = new TrieNode();
-			}
-			node = node->children[idx];
-		}
-		node->is_end = true;
-		node->idx = idx;
-	}
-
-	void find(const string word, int pos) {
-	}
-
-};
-
-
+// 给定一个字符串数组，元素不重复，找出两两拼接是回文的下标元组。
+// 首先将字符串倒序存入map，遍历数组，拆分字符串s.substr(0,i) s.substr(i),
+// 如果其中一个本身就是回文，另一个map中存在，则可以构成回文，
+// 最后额外处理一下["", "b"]这种case
 class Solution {
 public:
-	vector<vector<int>> palindromePairs_trie(vector<string>& words) {
-		return {};
-	}
-
     vector<vector<int>> palindromePairs(vector<string>& words) {
 		if (words.empty()) { return {}; }
 
