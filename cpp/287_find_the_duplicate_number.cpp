@@ -9,15 +9,17 @@
 #include <unordered_map>
 using namespace std;
 
+// 给定n+1个数，取值范围是[1,n]。找出重复的数字
 class Solution {
 public:
     int findDuplicate(vector<int>& nums) {
 		int slow = 0, fast = 0;
 		int nsize = (int)nums.size();
 
-		while (slow != fast) {
+		while (1) {
 			slow = nums[slow];
 			fast = nums[nums[fast]];
+			if (slow == fast) { break; }
 		}
 
 		auto tmp = 0;
@@ -30,7 +32,7 @@ public:
     }
 
 	int findDuplicate_bs(vector<int>& nums) {
-		int left = 0, right = (int)nums.size()-1;
+		int left = 1, right = (int)nums.size()-1;
 		while (left <= right) {
 			int mid = left + (right - left)/2;
 			int cnt = 0;
@@ -44,6 +46,20 @@ public:
 			}
 		}
 		return left;
+	}
+
+	int findDuplicate_bit(vector<int>& nums) {
+		int nsize = (int)nums.size()-1;
+		int res = 0;
+		for (int i = 0; i < 32; ++i) {
+			int bit = 1 << i, a = 0, b = 0;
+			for (int j = 0; j <= nsize; ++j) {
+				if (j > 0 && j & bit) { ++a; }
+				if (nums[j] & bit) { ++b; }
+			}
+			if (b > a) { res |= bit; }
+		}
+		return res;
 	}
 };
 
