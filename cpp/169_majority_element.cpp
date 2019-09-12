@@ -60,4 +60,25 @@ public:
     	}
     	return res;
     }
+
+	int helper(vector<int>& nums, int left, int right) {
+		if (left == right) { return nums[left]; }
+
+		int mid = left + (right-left) / 2;
+		int left_majority = helper(nums, left, mid);
+		int right_majority = helper(nums, mid+1, right);
+
+		if (left_majority == right_majority) { return left_majority; }
+		int count_lm = count(nums.begin()+left, nums.begin()+right+1, left_majority);
+		int count_rm = count(nums.begin()+left, nums.begin()+right+1, right_majority);
+		if (count_lm > count_rm) {
+			return left_majority;
+		} else {
+			return right_majority;
+		}
+	}
+
+	int majorityElement_dac(vector<int>& nums) {
+		return helper(nums, 0, nums.size()-1);
+	}
 };
