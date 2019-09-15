@@ -17,7 +17,7 @@ int is_positive(int a) {
         a = a & (a - 1);
         count++;
     }
-    return count == 0;
+	return !count;
 }
 
 int bigger(int a, int b) {
@@ -57,6 +57,17 @@ int bigger(int a, int b) {
     }
     
     return a; // a == b
+}
+
+int bigger_2(int a, int b) {
+	int sa = a >> 31, sb = b >> 31;
+	if (sa ^ sb) {
+		return (~sa & a) | (~sb & b);
+	}
+
+	int diff = a - b;
+	diff >>= 31;
+	return (~diff & a) | (diff & b);
 }
 
 void unit_test() {
