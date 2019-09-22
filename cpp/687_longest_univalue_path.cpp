@@ -18,31 +18,24 @@ using namespace std;
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
+
+// 这里的path是路径组成的path，类似124求和最大的path，递归，比较，返回的时候则返回大的一边。
 class Solution {
 public:
-	void dfs(TreeNode* node, vector<int>& path, int len, int& res) {
-		if (!root) { return; }
+    int helper(TreeNode* node, int& res) {
+        if (!node) { return 0; }
 
-		dfs(node->left, path, len, res);
-
-		if (!path.empty()) {
-			if (node->val == path.back()) {
-				++len;
-			} else {
-				len = 1;
-			}
-			res = max(res, len);
-		}
-		path.push_back(node->val);
-
-		dfs(node->right, path, len, res);
-	}
+        int left = helper(node->left, res);
+        int right = helper(node->right, res);
+        left = (node->left && node->val == node->left->val) ? left+1 : 0;
+        right = (node->right && node->val == node->right->val) ? right+1 : 0;
+        res = max(res, left+right);
+        return max(left, right);
+    }
 
     int longestUnivaluePath(TreeNode* root) {
-		vector<int> path;
-		int res = INT_MIN;
-		dfs(root, path, 1, res);
-		return res;
+        int res = 0;
+        helper(root, res);
+        return res;
     }
 };
-
