@@ -62,8 +62,8 @@ public:
 void unit_test() {
 	Solution s;
 
-	vector<int> nums = {1, 2, 3};
-	auto res = s.permute(nums);
+	vector<int> nums = {1, 2, 3, 4};
+	auto res = s.permute_dac(nums);
 
 	for (auto sec : res) {
 		cout << "[";
