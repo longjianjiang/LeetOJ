@@ -9,6 +9,8 @@
 #include <unordered_map>
 using namespace std;
 
+// 给定字符串只包含数字，返回所有可能的ip地址组合。
+// ip地址最多占三位，所以回溯尝试即可。
 class Solution {
 public:
 	void dfs(string s, vector<string>& res, vector<string> ip, int idx) {
