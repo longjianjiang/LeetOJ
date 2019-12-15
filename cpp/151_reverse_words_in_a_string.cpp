@@ -40,13 +40,46 @@ public:
 	   }
 	   return res;
     }
+
+	string reverseWordsInPlace(string s) {
+		auto reverseFunc = [](string& s, int l, int r) {
+			while (l < r) {
+				swap(s[l], s[r]);
+				++l; --r;
+			}
+		};
+
+	   reverseFunc(s, 0, s.size()-1);
+       int idx = 0, start = 0;
+	   int nsize = (int)s.size();
+	   while (idx < nsize && s[idx] == ' ') { s.erase(s.begin()+idx); }
+
+	   while (s.begin()+idx < s.end()) {
+		   if (s[idx] == ' ') {
+               reverseFunc(s, start, idx-1);
+			   ++idx; // add space
+			   while (s[idx] == ' ') { s.erase(s.begin()+idx); } // remove extra space
+			   start = idx;
+		   }
+		   ++idx;
+	   }
+	   if (s[start] != ' ') { reverseFunc(s, start, idx-1); }
+	   if (*(s.end()-1) == ' ') { s.erase(s.end()-1); }
+	   return s;
+	}
 };
 
-void unit_test() {
+void show(string str) {
 	Solution s;
-	string str = "  hello world!  ";
-	cout << s.reverseWords(str); 
+	cout << "<start>";
+	cout << s.reverseWordsInPlace(str); 
 	cout << "<end>\n";
+}
+void unit_test() { 
+	string str1 = "  hello   world!  ";
+	string str2 = "nancy jiang";
+	show(str1);
+	show(str2);
 }
 
 int main() {
