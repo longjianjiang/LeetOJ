@@ -14,6 +14,9 @@ using namespace std;
 // 给定数组和一个范围，要求返回数组所有可能的range处于给定范围的个数；
 // 最简单的办法两层for循环即可；
 // 更高效的是使用的分治的思想；
+// 1> sum数组，存放[0, i]的和，这里idx从1开始存放，这样求range(i, j)的时候，直接sum[j+1]-sum[i]就可以了；
+// 2> 类似归并排序，合并的时候，左右两边，遍历左边，去右边去查找一个range(m, n)加上左边某个元素处于要求中，cnt加n-m;
+// 3> 将[left, right)这区间进行排序；
 class Solution {
 public:
 	int helper(vector<long>& sum, int lower, int upper, int left, int right) {
