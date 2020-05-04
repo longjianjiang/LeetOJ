@@ -78,13 +78,12 @@ public:
 
 		node1 = head;
 		while (node1) {
-			auto tmpNode = node1->random;
-			if (tmpNode) {
-				node1->next->random = tmpNode->next;
+			auto randomNode = node1->random;
+			if (randomNode) {
+				node1->next->random = randomNode->next;
 			} else {
 				node1->next->random = NULL;
 			}
-
 			node1 = node1->next->next;
 		}
 

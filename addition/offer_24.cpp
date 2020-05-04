@@ -47,5 +47,35 @@ public:
 	}
 
 	vector<vector<int>> findPath(TreeNode *root, int target) {
+		if (!root) { return {}; }
+
+		TreeNode *pointer = root, *pre = NULL;
+		vector<TreeNode *> list;
+		int sum = 0;
+		vector<vector<int>> res;
+		while (!list.empty() || pointer) {
+			while (pointer) {
+				list.push_back(pointer);
+				sum += pointer->val;
+				pointer = pointer->left;
+			}
+
+			pointer = list.back();
+			if (!pointer->left && !pointer->right && sum == target) {
+				vector<int> tmp;
+				for (auto node: list) { tmp.push_back(node->val); }
+				res.push_back(tmp);
+			}
+
+			if (pointer->right && pointer->right != pre) {
+				pointer = pointer->right;
+			} else {
+				sum -= pointer->val;
+				list.pop_back();
+				pre = pointer;
+				pointer = NULL;
+			}
+		}
+		return res;
 	}
 };
