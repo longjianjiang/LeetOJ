@@ -16,6 +16,7 @@ using namespace std;
 // [0, 1, 3, 4]
 
 // 1> 朴素，创建数组依次进行取余，直到数组中只有一个元素返回；超时；
+// 2> https://blog.csdn.net/wuzhekai1985/article/details/6628491
 class Solution {
 public:
     int lastRemaining(int n, int m) {

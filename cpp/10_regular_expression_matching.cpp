@@ -21,11 +21,12 @@ public:
 
 		if (p[1] != '*') {
 			return first_match && isMatch(s.substr(1), p.substr(1));
-		} else {
-			bool one = isMatch(s, p.substr(2));
-			bool two = first_match && isMatch(s.substr(1), p);
-			return one || two;
 		}
+		while (!s.empty() && (p[0] == s[0] || p[0] == '.')) {
+			if (isMatch(s, p.substr(2))) { return true; }
+			s = s.substr(1);
+		}
+		return isMatch(s, p.substr(2));
     }
 
 	bool isMatch_dp(string s, string p) {
