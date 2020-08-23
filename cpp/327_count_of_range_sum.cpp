@@ -41,4 +41,28 @@ public:
 		for (int i = 0; i < len; ++i) { sum[i+1] = sum[i] + nums[i]; }
 		return helper(sum, lower, upper, 0, len+1);
     }
+
+	int helper_2(vector<long>& sum, int lower, int upper, int left, int right) {
+		if (left >= right) { return 0; }
+
+		int mid = left + (right - left) / 2;
+		int cnt = helper_2(sum, lower, upper, left, mid) + helper_2(sum, lower, upper, mid+1, right);
+		int m = mid+1, n = mid+1;
+
+		for (int i = left; i <= mid; ++i) {
+			while (m <= right && sum[m] - sum[i] <  lower) { ++m; } // >= lower 左边界
+			while (n <= right && sum[n] - sum[i] <= upper) { ++n; } // > upper 右边界
+
+			cnt += (n-m);
+		}
+		inplace_merge(pairs.begin()+left, pairs.begin()+mid+1, pairs.begin()+right+1);
+		return cnt;
+	}
+
+	int countRangeSum_2(vector<int>& nums, int lower, int upper) {
+		int len = nums.size();
+		vector<long> sum(len+1, 0);
+		for (int i = 0; i < len; ++i) { sum[i+1] = sum[i] + nums[i]; }
+		return helper_2(sum, lower, upper, 0, len);
+	}
 };
