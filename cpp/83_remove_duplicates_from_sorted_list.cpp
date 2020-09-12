@@ -23,8 +23,31 @@ using namespace std;
 // 给定链表，要求删除出现超过一次的节点中重复的。
 // 和82类似，使用三个指针，first和second从head开始，third是指向重复的最后一个节点；
 // 区别是，每次删除重复的以后，需要移动first，这样可以保证一定会存在一个节点；
+// 1-2-2-3-3-4
+// 1-1-1
 class Solution {
 public:
+	ListNode* deleteDuplicates_2(ListNode* head) {
+		if (!head) { return head; }
+		auto p1 = head;
+		auto p2 = head->next;
+
+		while (p1 && p2) {
+			if (p1->val != p2->val) {
+				p1 = p1->next;
+				p2 = p2->next;
+			} else {
+				while (p1->val == p2->val) {
+					p2 = p2->next;
+					if (!p2) { break; }
+				}
+				p1->next = p2;
+			}
+		}
+
+		return head;
+	}
+
     ListNode* deleteDuplicates(ListNode* head) {
     	if (!head || !head->next) { return head; }
     
