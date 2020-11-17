@@ -1,4 +1,4 @@
 .vscode
 output/
-review/
+# review/
 upload.rb
