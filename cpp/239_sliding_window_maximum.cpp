@@ -29,4 +29,18 @@ public:
         }
         return res;
     }
+
+	vector<int> maxSlidingWindow_balancedBST(vector<int>& nums, int k) {
+		vector<int> res;
+		multiset<int> ms(nums.begin(), nums.begin()+k);
+		res.push_back(*ms.rbegin());
+
+		for (int i = k; i < nums.size(); ++i) {
+			ms.insert(nums[i]);
+			ms.erase(nums[i-k]);
+			res.push_back(*ms.rbegin());
+		}
+
+		return res;
+	}
 };
