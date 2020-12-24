@@ -8,3 +8,10 @@
 #include <unordered_set>
 #include <unordered_map>
 using namespace std;
+
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+
+    }
+};
