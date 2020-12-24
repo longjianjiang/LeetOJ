@@ -53,6 +53,19 @@ public:
 			right = right_right;
 		}
 	}
+
+	void moveZeroes_2(vector<int>& nums) {
+		int nsize = nums.size();
+		if (nsize < 2) { return; }
+
+		int pos = 0;
+		for (int i = 0; i < nsize; ++i) {
+			if (nums[i] != 0) { nums[pos++] = nums[i]; }
+		}
+		for (int i = pos; i < nsize; ++i) {
+			nums[i] = 0;
+		}
+	}
 };
 
 void show_arr_one_dimensional(vector<int> arr) {
@@ -81,9 +94,9 @@ void unit_test() {
 	vector<int> list2 = {1, 2, 3, 0, 0};
 	vector<int> list3 = {1, 0, 0, 2, 3, 0, 4};
 
-	s.moveZeroes(list1);
-	s.moveZeroes(list2);
-	s.moveZeroes(list3);
+	s.moveZeroes_2(list1);
+	s.moveZeroes_2(list2);
+	s.moveZeroes_2(list3);
 
 	show_arr_one_dimensional(list1);
 	show_arr_one_dimensional(list2);
