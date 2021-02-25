@@ -61,3 +61,15 @@ public:
 	}
 };
 
+void unit_test() {
+	Solution s;
+
+	vector<int> list = {3, 3, 5, 0, 0, 3, 1, 4};
+	int res = s.maxProfit(list);
+	cout << res << endl;
+}
+
+int main() {
+	unit_test();
+	return 0;
+}
