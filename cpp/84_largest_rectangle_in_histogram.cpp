@@ -16,6 +16,7 @@ using namespace std;
 输出: 10
 */
 
+// [ref](https://www.cnblogs.com/boring09/p/4231906.html)
 class Solution {
 public:
     int largestRectangleArea(vector<int>& heights) {
