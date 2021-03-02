@@ -18,6 +18,25 @@ using namespace std;
 class Solution {
 public:
     string removeKdigits(string num, int k) {
+		int nsize = num.size();
+		if (nsize == 0 || k == 0) { return num; }
+		if (nsize == k) { return "0"; }
 
+		string stk;
+
+		for (char ch : num) {
+			while (!stk.empty() && ch < stk.back() && k > 0) {
+				stk.pop_back();
+				--k;
+			}
+			stk.push_back(ch);
+		}
+
+		while (k > 0) {
+			stk.pop_back();
+			--k;
+		}
+		while (!stk.empty() && stk[0] == '0') { stk.erase(stk.begin()); }
+		return stk.empty() ? "0" : stk;
     }
 };
