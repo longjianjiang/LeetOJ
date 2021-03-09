@@ -78,6 +78,35 @@ ListNode *removeDuplicate(ListNode *root) {
 }
 
 ListNode *removeDuplicateAtAll(ListNode *root) {
+	if (!root || !root->next) { return root; }
+
+	ListNode *tmp = new ListNode(root->val - 1);
+	tmp->next = root;
+
+	ListNode *first = tmp;
+	ListNode *second = root;
+	ListNode *third = NULL;
+
+	while (second) {
+		auto node = root->next;
+		if (!node) { break; }
+
+		if (second->val == node->val) {
+			third = second;
+		} else {
+			if (third) {
+				first->next = third->next;
+				third = NULL;
+			} else {
+				first = second;
+			}
+		}
+
+		second = node;
+	}
+	if (third) { first->next = third->next; }
+
+	return tmp->next;
 }
 
 ListNode *getLinkedList() {
