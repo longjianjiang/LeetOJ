@@ -28,13 +28,13 @@ void show_arr_two_dimensional(vector<vector<int>> arr) {
 	}
 }
 
-int partition(vector<int>& list, int left, int right) {
+int partition_1(vector<int>& list, int left, int right) {
 	int pivot = list[left];
 	int pos = left;
 	for (int i = left+1; i <= right; ++i) {
 		if (list[i] <= pivot) {
 			++pos;
-			if (list[i] < pivot) { swap(list[i], list[pos]); }
+			if (i != pos) { swap(list[i], list[pos]); }
 		}
 	}
 	swap(list[pos], list[left]);
@@ -56,31 +56,31 @@ int partition_2(vector<int>& list, int left, int right) {
 	return i;
 }
 
-void quick_sort(vector<int>& list, int left, int right) {
+void quick_sort_1(vector<int>& list, int left, int right) {
 	if (left >= right) { return; }
 
-	int pos = partition(list, left, right);
-	quick_sort(list, left, pos-1);
-	quick_sort(list, pos+1, right);
+	int pos = partition_1(list, left, right);
+	quick_sort_1(list, left, pos-1);
+	quick_sort_1(list, pos+1, right);
 }
 
 void quick_sort_2(vector<int>& list, int left, int right) {
 	if (left >= right) { return; }
 
 	int pos = partition_2(list, left, right);
-	quick_sort(list, left, pos-1);
-	quick_sort(list, pos+1, right);
+	quick_sort_2(list, left, pos-1);
+	quick_sort_2(list, pos+1, right);
 }
 
 // 3 6 1 5 4
 // 1 6 1 5 4
 // 1 6 6 5 4
 int main() {
-	vector<int> list = {3, 6, 1, 5, 4};
-	quick_sort(list, 0, 4);
+	vector<int> list = {3, 3, 4, 3, 3};
+	quick_sort_1(list, 0, 4);
 	show_arr_one_dimensional(list);
 
-	vector<int> list_2 = {2, 4, 1, 5, 3};
+	vector<int> list_2 = {3, 3, 4, 3, 3};
 	quick_sort_2(list_2, 0, 4);
 	show_arr_one_dimensional(list_2);
 
