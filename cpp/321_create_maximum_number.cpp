@@ -33,13 +33,14 @@ using namespace std;
 // 这里有两个数组，k位，所以其实就是对两个数组求最大，然后进行合并。
 // 最后一个问题就是k的分配。
 // 其实复杂的问题，一般是需要用到不止一种算法。此时需要我们对每个问题足够熟悉，这样才能举一反三。
+// https://leetcode-cn.com/problems/create-maximum-number/solution/c-dan-diao-zhan-gui-bing-zi-dian-xu-by-xiao-qiao-l/
 class Solution {
 public:
     vector<int> maxNumber(vector<int>& nums1, vector<int>& nums2, int k) {
         int nsize1 = nums1.size(), nsize2 = nums2.size();
         vector<int> res;
         
-        for (int i =0; i <= k; ++i) {
+        for (int s=max(0,k-nsize2);s<=min(k,nsize1);s++) {
             vector<int> one = findMax(nums1, nsize1-i);
             vector<int> two = findMax(nums2, nsize2-k+i);
             vector<int> mergeOne = mergeArr(one, two);
