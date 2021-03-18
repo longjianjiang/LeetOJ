@@ -37,29 +37,40 @@ class Solution {
 public:
     vector<int> maxNumber(vector<int>& nums1, vector<int>& nums2, int k) {
         int nsize1 = nums1.size(), nsize2 = nums2.size();
-        
-        int max = INT_MIN;
+        if (nsize1 + nsize2 == k) {
+            auto one = mergeArr(nums1, nums2);
+            auto two = mergeArr(nums2, nums1);
+            auto oneValue = getValue(one);
+            auto twoValue = getValue(two);
+            
+            return one > two ? one : two;
+        }
+        int maxValue = INT_MIN;
         vector<int> res;
         
-        for (int i = 1; i < k; ++i) {
+        // max(0, k - n) <= i <= min(m, k)
+        for (int i =0; i <= k; ++i) {
             vector<int> one = findMax(nums1, i);
             vector<int> two = findMax(nums2, k-i);
             vector<int> merge = mergeArr(one, two);
             int merveValue = getValue(merge);
-            if (merveValue > max) {
-                max = merveValue;
+            cout << merveValue << endl;
+            if (merveValue > maxValue) {
+                maxValue = merveValue;
                 res = merge;
             }
         }
         
-        return res;
+        return res;//(res.begin(), res.begin()+k);
     }
     
     /// 移除k位，返回最大的结果
     vector<int> findMax(vector<int>& nums, int k) {
         if (nums.empty()) { return nums; }
-        if (k == 0) { return nums; }
         int nsize = nums.size();
+        if (k == 0) { return nums; }
+        if (k >= nsize) { return {}; }
+        
         stack<int> stk;
         
         for (int i = 0; i < nsize; ++i) {
@@ -74,13 +85,12 @@ public:
             --k;
         }
         
-        int resSize = nsize-k;
-        vector<int> res(resSize, 0);
-        int pos = resSize-1;
+        vector<int> res;
         while (!stk.empty()) {
-            res[pos--] = nums[stk.top()];
+            res.push_back(nums[stk.top()]);
             stk.pop();
         }
+        reverse(res.begin(), res.end());
         
         return res;
     }
@@ -111,9 +121,9 @@ public:
     
     int getValue(vector<int>& nums) {
         int totalSize = nums.size();
-        int resValue;
+        int resValue = 0;
         for (auto num : nums) {
-            resValue += pow(10, --totalSize);
+            resValue += num * pow(10, --totalSize);
         }
         return resValue;
     }
@@ -143,7 +153,7 @@ void unit_test() {
     
     vector<int> nums1 = {3, 4, 6, 5};
     vector<int> nums2 = {9, 1, 2, 5, 8, 3};
-    auto res = s.maxNumber(nums1, nums2, 5);
+    auto res = s.maxNumber(nums1, nums2, 3);
     
     show_arr_one_dimensional(res);
 }
