@@ -38,16 +38,19 @@ class Solution {
 public:
     vector<int> maxNumber(vector<int>& nums1, vector<int>& nums2, int k) {
         int nsize1 = nums1.size(), nsize2 = nums2.size();
+        // if (nsize1 > nsize2) { swap(nsize1, nsize2); }
         vector<int> res;
         
-        for (int s=max(0,k-nsize2);s<=min(k,nsize1);s++) {
+        // for(int s=max(0,k-len2);s<=min(k,len1);s++)
+        for (int i = 0; i <= k; ++i) {
             vector<int> one = findMax(nums1, nsize1-i);
             vector<int> two = findMax(nums2, nsize2-k+i);
-            vector<int> mergeOne = mergeArr(one, two);
-            vector<int> mergeTwo = mergeArr(two, one);
+            vector<int> merge = mergeArr(one, two);
+            // vector<int> mergeOne = mergeArr(one, two);
+            // vector<int> mergeTwo = mergeArr(two, one);
 
-            vector<int> bigger = compareNums(mergeOne, mergeTwo);
-            res = compareNums(res, bigger);
+            // vector<int> bigger = compareNums(mergeOne, mergeTwo);
+            res = compareNums(res, merge);
         }
         
         return res;
@@ -92,11 +95,16 @@ public:
         vector<int> res;
         
         while (p < nsize1 && q < nsize2) {
-            if (nums1[p] > nums2[q]) {
+            if (!lexicographical_compare(nums1.begin()+p, nums1.end(), nums2.begin()+q, nums2.end())) {
                 res.push_back(nums1[p++]);
             } else {
                 res.push_back(nums2[q++]);
             }
+            // if (nums1[p] > nums2[q]) {
+            //     res.push_back(nums1[p++]);
+            // } else {
+            //     res.push_back(nums2[q++]);
+            // }
         }
         
         while (p < nsize1) {
