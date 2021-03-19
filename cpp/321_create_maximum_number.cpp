@@ -95,6 +95,7 @@ public:
         vector<int> res;
         
         while (p < nsize1 && q < nsize2) {
+			// 因为数组不是有序的，所以选择的时候，需要每次从字典序大的开始。
             if (!lexicographical_compare(nums1.begin()+p, nums1.end(), nums2.begin()+q, nums2.end())) {
                 res.push_back(nums1[p++]);
             } else {
