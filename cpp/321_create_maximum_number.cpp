@@ -38,18 +38,18 @@ class Solution {
 public:
     vector<int> maxNumber(vector<int>& nums1, vector<int>& nums2, int k) {
         int nsize1 = nums1.size(), nsize2 = nums2.size();
-        // if (nsize1 > nsize2) { swap(nsize1, nsize2); }
         vector<int> res;
-        
-        // for(int s=max(0,k-len2);s<=min(k,len1);s++)
-        for (int i = 0; i <= k; ++i) {
+
+        int maxSize = max(nsize1, nsize2);
+        // 如果k比任意一个都要大，那么至少需要取k-maxSize个，否则不够k个。
+        int start = max(0, k-maxSize);
+        // 如果k大于maxSize，那么不可能取到k个，因为没有一个长度大于k。
+        int end = min(k, maxSize);
+
+        for (int i = start; i <= end; ++i) {
             vector<int> one = findMax(nums1, nsize1-i);
             vector<int> two = findMax(nums2, nsize2-k+i);
             vector<int> merge = mergeArr(one, two);
-            // vector<int> mergeOne = mergeArr(one, two);
-            // vector<int> mergeTwo = mergeArr(two, one);
-
-            // vector<int> bigger = compareNums(mergeOne, mergeTwo);
             res = compareNums(res, merge);
         }
         
