@@ -13,6 +13,43 @@ using namespace std;
 // 1> 使用union find，先进行合并，然后查找1所构成的union有多少个。
 class Solution {
 public:
+	vector<pair<int, int>> edges = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+
+	void dfs(vector<vector<char>>& grid, int x, int y) {
+		int row = grid.size();
+		if (row == 0) { return; }
+		int col = grid[0].size();
+		if (col == 0) { return; }
+
+		if (x < 0 || x >= row || y < 0 || y >= col) { return; }
+		if (grid[x][y] != '1') { return; }
+
+		grid[x][y] = '$';
+		for (auto edge : edges) {
+			int x1 = x + edge.first, y1 = y + edge.second;
+			dfs(grid, x1, y1);
+		}
+	}
+
+	int numIslands(vector<vector<char>>& grid) {
+		int row = grid.size();
+		if (row == 0) { return 0; }
+		int col = grid[0].size();
+		if (col == 0) { return 0; }
+
+		int res = 0;
+		for (int i = 0; i < row; ++i) {
+			for (int j = 0; j < col; ++j) {
+				if (grid[i][j] == '1') {
+					dfs(grid, i, j);
+					res += 1;
+				}
+			}
+		}
+
+		return res;
+	}
+
     int numIslands(vector<vector<char>>& grid) {
 		int row = grid.size();
 		if (row == 0) { return 0; }
