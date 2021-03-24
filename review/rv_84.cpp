@@ -29,8 +29,11 @@ public:
 		int nsize = heights.size();
 
 		for (int i = 0; i < nsize; ++i) {
-			while (!stk.empty() && nums[i] < nums[stk.top()]) {
-				int num = nums[i];
+			while (!stk.empty() && heights[i] < heights[stk.top()]) {
+				int top = stk.top(); stk.pop();
+				int h = heights[top];
+				int w = stk.empty() ? i : i - stk.top() - 1;
+				maxArea = max(w*h, maxArea);
 			}
 			stk.push(i);
 		}
