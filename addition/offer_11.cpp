@@ -15,7 +15,7 @@ public:
      int  NumberOf1(int n) {
 		 int res = n & 1;
 		 // 逻辑右移，否则负数的时候会死循环；
-		 while (n = (unsigned)n << 1) {
+		 while (n = (unsigned)n >> 1) {
 			 res += n & 1;
 		 }
 		 return res;
