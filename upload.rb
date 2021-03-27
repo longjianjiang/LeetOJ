@@ -4,6 +4,7 @@ commit_msg = gets.chomp
 #commit_msg = "Update(auto commit)"
 commit_command = "git commit -m '#{commit_msg}' "
 
+`git pull`
 `git add .`
 `#{commit_command}`
 `git push origin master`
