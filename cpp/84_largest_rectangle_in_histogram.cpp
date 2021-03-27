@@ -45,3 +45,19 @@ public:
 		return maxArea;
     }
 };
+
+如何安装快速键盘:
+1) 点击👆的「键盘」;
+2) 打开「快速键盘」, 「允许完全访问」开关;
+
+* 如果没有显示「键盘」，请上滑关闭设置应用，重新打开这个页面;
+*「允许完全访问」不开启无法同步您之前输入的快捷文本；
+* 我们保证不会收集任何您的个人数据;
+
+How to install Quick Keyboard:
+1) Tap 'Keyboards' button above 👆.
+2) Toggle 'Quick Keyboard' and 'Allow Full Access' on.
+
+* If there is no 'Keyboards' button, please swipe up to force quit settings app and reopen it.
+* Without full access rights, we cannot synchronize the shortcut text you entered before.
+* We will never collect any of your private data.
