@@ -10,7 +10,7 @@
 using namespace std;
 
 // 实现一个MyQueue类，该类用两个栈来实现一个队列。
-
+// 1> 插入的时候正常插入，pop的时候如果栈为空，将原有栈进行出栈。
 // 1 2 3 4 5
 class MyQueue {
 private:
