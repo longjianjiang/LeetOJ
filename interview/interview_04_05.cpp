@@ -22,18 +22,13 @@ using namespace std;
 // 中序遍历，判断是否有序即可。
 class Solution {
 public:
-	bool helper(TreeNode *root) {
+	bool helper(TreeNode *root, long max, long min) {
 		if (!root) { return true; }
-		if (!root->left && !root->right) { return true; }
-		
-		int top = root->val;
-		if (root->left && root->left->val > top) { return false; } 
-		if (root->right && root->right->val < top) { return false; }
-
-		return helper(root->left) && helper(root->right);
+		if (root->val >= max || root->val <= min) { return false; }
+		return helper(root->left, root->val, min) && helper(root->right, max, root->val);
 	}
 
     bool isValidBST(TreeNode* root) {
-		return helper(root);
+		return helper(root, LONG_MAX, LONG_MIN);
     }
 };
