@@ -41,3 +41,20 @@ ListNode *removeDuplicates(ListNode *head) {
 
 	return head;
 }
+
+// 1> 递归的思路来做；
+ListNode *removeDuplicates(ListNode *head) {
+	if (!head || !head->next) { return head; }
+
+	if (head->val != head->next->val) {
+		head->next = removeDuplicates(head->next);
+	} else {
+		auto tmp = head->next;
+		while (tmp && tmp->val == head->val) {
+			tmp = tmp->next;
+		}
+		return removeDuplicates(tmp);
+	}
+
+	return head;
+}
