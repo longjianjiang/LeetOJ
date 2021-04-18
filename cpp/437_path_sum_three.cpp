@@ -43,4 +43,30 @@ public:
 
 		return res;
 	}
+
+	// [1,null,2,null,3,null,4,null,5], 3
+	// 使用回溯，case有问题。
+    int pathSum(TreeNode* root, int targetSum) {
+		if (!root) { return 0; }
+
+		vector<int> chosen;
+		vector<vector<int>> res;
+		dfs(root, targetSum, 0, chosen, res);
+		pathSum(root->left, targetSum);
+		pathSum(root->right, targetSum);
+
+		return res.size();
+    }
+
+	void dfs(TreeNode *root, int target, int sum, vector<int> chosen, vector<vector<int>>& res) {
+		if (!root) { return; }
+		
+		sum += root->val;
+		chosen.push_back(root->val);
+		if (sum == target) {
+			res.push_back(chosen);
+		}
+		dfs(root->left, target, sum, chosen, res);
+		dfs(root->right, target, sum, chosen, res);
+	}
 };
