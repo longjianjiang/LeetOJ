@@ -129,3 +129,68 @@ int main() {
 
 	return 0;
 }
+
+// 1-2-2-2-3-3-4
+ListNode *removeDuplicate(ListNode *root) {
+	if (!head || !head->next) { return head; }
+
+	ListNode *left = head, *right = head->next;
+
+	while (left && right) {
+		if (left->val == right->val) {
+			while (right->next && right->next->val == left->val) {
+				right = right->next;
+			}
+			left->next = right->next;
+			right = left->next;
+		} else {
+			left = left->next;
+			right = right->next;
+		}
+	}
+
+	return head;
+}
+
+// 1-2-2-2-3-3-4
+ListNode *removeDuplicateAtAll(ListNode *head) {
+	if (!head || !head->next) { return head; }
+
+	auto tmp = new ListNode(head->val - 1);
+	tmp->next = head;
+
+	auto p = tmp, q = tmp->next;
+	while (p && q) {
+		while (q->next && q->next->val == p->val) {
+			q = q->next;
+		}
+		if (p->next == q) {
+			p = p->next;
+		} else {
+			p->next = q->next;
+		}
+		q = p->next;
+	}
+
+	return tmp->next;
+}
+
+// 1-2-3-4-5, n = 3;
+// 
+ListNode* removeNthFromEnd(ListNode* head, int n) {
+	if (!head) { return head; }
+
+	auto p = head, q = head;
+
+	for (int i = 0; i < n; ++i) { q = q->next; }
+	if (!q) { return head->next; }
+
+	while (q->next) {
+		p = p->next;
+		q = q->next;
+	}
+
+	p->next = p->next->next;
+
+	return head;
+}
