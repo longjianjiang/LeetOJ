@@ -35,6 +35,29 @@ int lengthOfLongestSubstring(string s) {
 	return res;
 }
 
+int lengthOfLongestSubstring_sw(string s) {
+	int nsize = s.size();
+	if (nsize <= 1) { return nsize; }
+
+	unordered_set<int> us;
+	int l = 0, r = 0;
+	int res = 0;
+	while (r < nsize) {
+		char ch = s[r];
+		if (us.find(ch) != us.end()) {
+			us.erase(s[l++]);
+		} else {
+			us.insert(ch);
+			++r;
+			if (us.size() > res) {
+				res = us.size();
+			}
+		}
+	}
+
+	return res;
+}
+
 void unit_test() {
 	assert(lengthOfLongestSubstring("dvdf") == 3);
 	assert(lengthOfLongestSubstring(" ") == 1);
