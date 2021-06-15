@@ -14,7 +14,9 @@ using namespace std;
 class Solution {
 public:
     int maximum(int a, int b) {
+		// 提前转long，否则结果用int存溢出了。
     	long diff = (long)a - (long)b;
+		//long diff = a - b;
 		auto index = to_string(diff)[0];
 
 		unordered_map<char, int> dict;
@@ -28,7 +30,7 @@ public:
 void unit_test() {
 	Solution s;
 
-	cout << s.maximum(2, 1) << endl;
+	cout << s.maximum(INT_MAX, INT_MIN) << endl;
 }
 
 int main() {
