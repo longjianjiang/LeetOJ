@@ -22,6 +22,8 @@ small = [1,5,9]
 
 class Solution {
 public:
+	// 最初的思路是同时确定left和right。
+	// 提交了只过了29 / 42 个通过测试用例。
     vector<int> shortestSeq(vector<int>& big, vector<int>& small) {
         if (big.empty() || small.empty()) { return {}; }
 
@@ -59,4 +61,36 @@ public:
         }
         return arr;
     }
+
+	// 固定left为开头，首先移动right直到满足条件。
+	// 此时尝试移动left，看是否满足条件，同时更新条件。
+	// 参考：https://leetcode-cn.com/problems/shortest-supersequence-lcci/solution/xiang-xi-tu-jie-hua-dong-chuang-kou-chao-qi7g/
+	vector<int> shortestSeq(vector<int>& big, vector<int>& small) {
+		int nsize = big.size();
+		int minLen = INT_MAX;
+		unordered_map<int, int> map;
+		int cnt = 0;
+		int left = 0, right = 0;
+		vector<int> res;
+
+		for (auto num : small) {
+			++map[num];
+			++cnt;
+		}
+		while (right < nsize) {
+			int tmp = big[right];	
+			if (map.find(tmp) != map.end() && --map[tmp] >= 0) { --cnt;  }
+			while (cnt == 0) {
+				if (right - left < minLen) {
+					res = {left, right};
+					minLen = right - left;
+				}
+				if (map.find(big[left]) != map.end() && ++map[big[left]] > 0) { ++cnt;  }
+				++left;
+			}
+			++right;
+		}
+
+		return res;
+	}
 };
