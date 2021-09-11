@@ -17,6 +17,76 @@ big = "mississippi"
 smalls = ["is","ppi","hi","sis","i","ssippi"]
 输出： [[1,4],[8],[],[3],[1,4,7,10],[5]]
 */
+
+// https://leetcode-cn.com/problems/multi-search-lcci/solution/bao-li-fa-zi-dian-shu-yi-ji-kmpduo-fang-pprn8/
+
+struct TrieNode {
+	int wordEndIdx = -1;
+	array<TrieNode *, 26> children = { nullptr };
+};
+
+class Trie {
+private:
+	TrieNode *root;
+
+public:
+	Trie() {
+		root = new TrieNode();
+	}
+
+	~Trie() {
+		delete root;
+		root = nullptr;
+	}
+
+	void insert(const string word, int idx) {
+		auto node = root;
+		for (auto ch : word) {
+			int idx = ch - 'a';
+			if (node->children[idx] == nullptr) {
+				node->children[idx] = new TrieNode();
+			}
+			node = node->children[idx];
+		}
+		node->wordEndIdx = idx;
+	}
+
+	void search(const string word, int pos, vector<vector<int>>& res) {
+		auto node = root;
+		for (auto ch : word) {
+			int idx = ch - 'a';
+			if (node->children[idx] != nullptr) {
+				node = node->children[idx];
+				if (node->wordEndIdx != -1) {
+					res[node->wordEndIdx].push_back(pos);
+				}
+			} else {
+				return;
+			}
+		}
+	}
+};
+
+class Solution {
+public:
+    vector<vector<int>> multiSearch(string big, vector<string>& smalls) {
+    	int smallSize = smalls.size(), bigSize = big.size();
+        vector<vector<int>> res(smallSize, vector<int>{});
+
+    	Trie *trie = new Trie();
+    	for (int i = 0; i < smallSize; ++i) {
+    		trie->insert(smalls[i], i);
+    	}
+
+		for (int i = 0; i < bigSize; ++i) {
+			string substr = big.substr(i);
+			trie->search(substr, i, res);
+		}
+
+		return res;
+    }
+};
+
 class Solution {
 public:
     vector<vector<int>> multiSearch(string big, vector<string>& smalls) {
