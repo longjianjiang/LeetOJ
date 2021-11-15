@@ -58,6 +58,7 @@ int lengthOfLongestSubstring_sw(string s) {
 	return res;
 }
 
+
 void unit_test() {
 	assert(lengthOfLongestSubstring("dvdf") == 3);
 	assert(lengthOfLongestSubstring(" ") == 1);
