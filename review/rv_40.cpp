@@ -23,12 +23,14 @@ public:
 	}
 
 	void dfs(vector<vector<int>>& res, vector<int> chosen, vector<int> candidates, int idx, int right, int target) {
-		if (target < 0 || idx > right) { return; }
 		if (target == 0) {
 			res.push_back(chosen);
 			return;
 		}
+
+		if (target < 0 || idx > right) { return; }
 		for (int i = idx; i <= right; ++i) {
+			// [1, 1, 2, 5, 6, 7, 10], 过滤掉idx=0, i=1时，重复的[1,2,5], [1,7]
             if (i > idx && candidates[i] == candidates[i-1]) { continue; }
 			int num = candidates[i];
 			target -= num;
