@@ -62,7 +62,7 @@ public:
 		if (!root) {return 0;}
 
 		int res = 0;
-		dict[0] = 1;
+		dict[0] = 1; // root-leaf path
 		dfs(root, targetSum, 0, res);
 
 		return res;

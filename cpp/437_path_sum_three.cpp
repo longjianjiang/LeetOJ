@@ -24,6 +24,8 @@ using namespace std;
  // 双dfs;
 class Solution {
 public:
+	vector<vector<int>> res;
+
     int pathSum(TreeNode* root, int targetSum) {
 		if (!root) { return 0; }
 
@@ -44,13 +46,11 @@ public:
 		return res;
 	}
 
-	// [1,null,2,null,3,null,4,null,5], 3
-	// 使用回溯，case有问题。
+	// 使用回溯，case会超时；
     int pathSum(TreeNode* root, int targetSum) {
 		if (!root) { return 0; }
 
 		vector<int> chosen;
-		vector<vector<int>> res;
 		dfs(root, targetSum, 0, chosen, res);
 		pathSum(root->left, targetSum);
 		pathSum(root->right, targetSum);
@@ -68,5 +68,7 @@ public:
 		}
 		dfs(root->left, target, sum, chosen, res);
 		dfs(root->right, target, sum, chosen, res);
+
+		chosen.pop_back();
 	}
 };
