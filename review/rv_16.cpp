@@ -18,18 +18,6 @@ public:
 
 		int diff = INT_MAX;
 		int res = -1;
-		auto updateResFunc = [&](int target, int sum) {
-			int tmp;
-			if (sum < target) {
-				tmp = target - sum;
-			} else {
-				tmp = sum - target;
-			}
-			if (tmp < diff) {
-				diff = tmp;
-				res = sum;
-			}
-		};
 
 		for (int i = 0; i < nsize; ++i) {
 			int l = i + 1, r = nsize - 1;
@@ -39,11 +27,17 @@ public:
 					return sum;
 				} else if (sum < target) {
 					++l;
-					updateResFunc(target, sum);
 				} else {
 					--r;
-					updateResFunc(target, sum);
 				}
+				int tmp = abs(target - sum);
+				if (tmp < diff) {
+					diff = tmp;
+					res = sum;
+				}
+			}
+			while (i + 1 < nsize && nums[i] == nums[i + 1]) {
+				++i;
 			}
 		}
 
