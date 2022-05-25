@@ -12,16 +12,22 @@ using namespace std;
 class Solution {
 public:
 	// "123"
-	void dfs(vector<int> nums, vector<int> chosen, vector<vector<int>>& res) {
+	// 计算整个排列结果，数组取下标会超时；
+	// 用索引进行累加，当到k时就可以不用继续了；
+	// TODO: nums不加引用，会超时?
+	void dfs(vector<int>& nums, vector<int>& chosen, int k, int& idx) {
 		if (nums.empty()) {
-			res.push_back(chosen);
+			cout << "empty" << endl;
+			++idx;
 			return;
 		}
 		for (int i = 0; i < nums.size(); ++i) {
 			int num = nums[i];
 			nums.erase(nums.begin()+i);
 			chosen.push_back(num);
-			dfs(nums, chosen, res);
+			dfs(nums, chosen, k, idx);
+
+			if (idx == k) { return; }
 			chosen.pop_back();
 			nums.insert(nums.begin()+i, num);
 		}
@@ -37,13 +43,11 @@ public:
 			nums.push_back(i);
 		}
 		vector<int> chosen;
-		vector<vector<int>> arr;
+		int idx;
+		dfs(nums, chosen, k, idx);
 
-		dfs(nums, chosen, arr);
-
-		auto item = arr[k-1];
-		string res = "";
-		for (auto n : item) {
+		string res("");
+		for (auto n : chosen) {
 			res += to_string(n);
 		}
 		return res;
@@ -53,7 +57,7 @@ public:
 void unit_test() {
 	Solution s;
 
-	cout << s.getPermutation(3, 3) << endl;
+	cout << s.getPermutation(3, 6) << endl;
 }
 
 int main() {
