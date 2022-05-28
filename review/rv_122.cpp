@@ -9,8 +9,26 @@
 #include <unordered_map>
 using namespace std;
 
+// dp[i] 某天的收益；
+// dp[i][0] 空仓收益，dp[i][1] 满仓收益；
+// 空仓收益 = max(继续空仓，满仓卖出空仓);
+// 满仓收益 = max(继续满仓，空仓买入满仓);
 class Solution {
 public:
+	int maxProfit(vector<int>& prices) {
+		int nsize = prices.size();
+		if (nsize < 2) { return 0; }
+
+		int res = 0;
+		vector<vector<int>> dp(nsize, vector<int>(2, 0));
+		dp[0][0] = 0; dp[0][1] = -prices[0];
+		for (int i = 1; i < nsize; ++i) {
+			dp[i][0] = max(dp[i-1][0], dp[i-1][1] + prices[i]);
+			dp[i][1] = max(dp[i-1][1], dp[i-1][0] - prices[i]);
+			res = max(res, dp[i][0]);
+		}
+		return res;
+	}
     int maxProfit(vector<int>& prices) {
 		int nsize = prices.size();
 		if (nsize < 2) { return 0; }
