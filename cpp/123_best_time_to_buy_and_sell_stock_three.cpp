@@ -13,9 +13,35 @@ using namespace std;
 // Input: prices = [3,3,5,0,0,3,1,4]
 // Output: 6
 
+// dp[i] 某天的收益；
+// dp[i][0] 空仓收益，dp[i][1] 满仓收益；
+// 空仓收益 = max(继续空仓，满仓卖出空仓);
+// 满仓收益 = max(继续满仓，空仓买入满仓);
+
 class Solution {
 public:
-    int maxProfit(vector<int>& prices) {
+	int maxProfit(vector<int>& prices) {
+		int nsize = prices.size();
+		if (nsize < 2) { return 0; }
+
+		int k = 2;
+		vector<vector<vector<int>>> dp(nsize+1, vector<vector<int>>(k+1, vector<int>(2, 0)));
+
+		for (int j = 1; j <= k; ++j) {
+			dp[0][j][0] = 0; 
+			dp[0][j][1] = INT_MIN;
+		}
+
+		for (int i = 1; i <= nsize; ++i) {
+			for (int j = 1; j <= k; ++j) {
+				dp[i][j][0] = max(dp[i-1][j][0], dp[i-1][j][1] + prices[i-1]);
+				dp[i][j][1] = max(dp[i-1][j][1], dp[i-1][j-1][0] - prices[i-1]);
+			}
+		}
+		return dp[nsize][k][0];
+	}
+
+    int maxProfit_tp(vector<int>& prices) {
 		int nsize = prices.size();
 		if (nsize == 0) { return 0; }
 
