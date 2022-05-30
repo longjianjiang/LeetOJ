@@ -20,6 +20,7 @@ using namespace std;
 
 class Solution {
 public:
+	// [ref](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iii/solution/by-larrychen__-1iko/)
 	int maxProfit(vector<int>& prices) {
 		int nsize = prices.size();
 		if (nsize < 2) { return 0; }
@@ -57,41 +58,13 @@ public:
 		}
 		return res;
     }
-
-	void calLeft(vector<int>& prices, vector<int>& left) {
-		int nsize = prices.size();
-		if (nsize == 0) { return; }
-
-		int res = 0;
-		int low = prices[0];
-
-		for (int i = 0; i < nsize; ++i) {
-			res = max(res, prices[i] - low);
-			left[i] = res;
-			low = min(low, prices[i]);
-		}
-	}
-
-	void calRight(vector<int>& prices, vector<int>& right) {
-		int nsize = prices.size();
-		if (nsize == 0) { return; }
-
-		int res = 0;
-		int high = prices[nsize-1];
-
-		for (int i = nsize-1; i >= 0; --i) {
-			res = max(res, high-prices[i]);
-			right[i] = res;
-			high = max(high, prices[i]);
-		}
-	}
 };
 
 void unit_test() {
 	Solution s;
 
 	vector<int> list = {3, 3, 5, 0, 0, 3, 1, 4};
-	int res = s.maxProfit(list);
+	int res = s.maxProfit_tp(list);
 	cout << res << endl;
 }
 
