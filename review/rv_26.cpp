@@ -9,23 +9,6 @@
 #include <unordered_map>
 using namespace std;
 
-// 给定有序数组，原地删除重复的元素；
-class Solution {
-public:
-    int removeDuplicates(vector<int>& nums) {
-		int nsize = nums.size();
-
-		int l = 0, r = 0;
-		while (l < nums.size()) {
-			while (l + 1 < nums.size() && nums[l] == nums[l + 1]) {
-				nums.erase(nums.begin() + l);
-			}
-			++l;
-		}
-		return nsize - nums.size();
-    }
-};
-
 template<typename T>
 void show_arr_one_dimensional(vector<T> arr) {
 	cout << "[";
@@ -47,15 +30,35 @@ void show_arr_two_dimensional(vector<vector<T>> arr) {
 	}
 }
 
+// 给定有序数组，原地删除重复的元素；
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+		int nsize = nums.size();
+		if (nsize <= 1) { return 1; }
+
+		int l = 0;
+		while (l < nums.size()) {
+			while (l + 1 < nums.size() && nums[l] == nums[l + 1]) {
+				nums.erase(nums.begin() + l);
+			}
+			++l;
+		}
+		return nums.size();
+    }
+};
+
+
 void unit_test() {
 	Solution s;
 
-	vector<int> nums1 = {1, 1, 1};
-	s.removeDuplicates(nums1);
+	vector<int> nums1 = {1, 1, 2};
+	cout << s.removeDuplicates(nums1) << endl;
 	show_arr_one_dimensional(nums1);
 
+	return;
 	vector<int> nums2 = {0,0,1,1,1,2,2,3,3,4};
-	s.removeDuplicates(nums2);
+	cout << s.removeDuplicates(nums2) << endl;
 	show_arr_one_dimensional(nums2);
 }
 
