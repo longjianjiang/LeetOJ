@@ -11,6 +11,32 @@ using namespace std;
 
 class Solution {
 public:
+	int lengthOfLongestSubstring(string s) {
+		int nsize = s.size();
+        if (nsize <= 1) { return nsize; }
+
+        int l = 0, r = 0;
+        int res = 0;
+        unordered_set<int> us;
+        while (r < nsize) {
+            auto ch = s[r];
+            if (us.find(ch) == us.end()) {
+                us.insert(ch);
+            } else {
+                res = max(res, r - l);
+                while (ch != s[l]) {
+                    us.erase(s[l]);
+                    ++l;
+                }
+                ++l;
+            }
+            ++r;
+        }
+		// case: "abcd"
+        res = max(res, r - l);
+
+        return res;
+	}
 	// sliding window
     int lengthOfLongestSubstring(string s) {
 		if (s.empty()) { return 0; }
