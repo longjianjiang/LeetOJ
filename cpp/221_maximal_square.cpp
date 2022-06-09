@@ -10,7 +10,8 @@
 using namespace std;
 
 // 在一个由 '0' 和 '1' 组成的二维矩阵内，找到只包含 '1' 的最大正方形，并返回其面积。
-// 遍历，对每个节点尝试正方形构建，返回最大宽度。
+// 1> 遍历，对每个节点尝试正方形构建，返回最大宽度。超时。
+// 2> 还是之前对思路，使用dp来进行记录，避免重复计算。右下角长度等于周围3个最小长度进行加1。
 class Solution {
 public:
 	int helper(int x, int y, vector<vector<char>> matrix, int len) {
@@ -64,6 +65,29 @@ public:
 
 		return len * len;
     }
+
+	int maximalSquare(vector<vector<char>>& matrix) {
+		int rows = matrix.size();
+		if (rows == 0) { return 0; }
+		int cols = matrix[0].size();
+		if (cols == 0) { return 0; }
+
+		int len = 0;
+		vector<vector<int>> dp(rows, vector<int>(cols, 0));
+		for (int x = 0; x < rows; ++x) {
+			for (int y = 0; y < cols; ++y) {
+				if (x == 0 || y == 0) {
+					dp[x][y] = matrix[x][y] - '0';
+				} else {
+					if (matrix[x][y] == '1') {
+						dp[x][y] = min(dp[x-1][y], min(dp[x][y-1], dp[x-1][y-1])) + 1;
+					}
+				}
+				len = max(len, dp[x][y]);
+			}
+		}
+		return len * len;
+	}
 };
 
 
