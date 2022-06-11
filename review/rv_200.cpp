@@ -114,43 +114,57 @@ public:
 		int row = grid.size();
 		if (row == 0) { return 0; }
 		int col = grid[0].size();
+		if (col == 0) { return 0; }
 
 		int cnt = row * col;
-		vector<int> p;
+		vector<int> p(cnt, 0);
 		for (int i = 0; i < cnt; ++i) {
-			p.push_back(i);
+			p[i] = i;
 		}
 
-		auto findf = [&](int i) {
-			while (i != p[i]) {
-				p[i] = p[p[i]];
-				i = p[i];
+		auto findFunc = [&](int x) {
+			while (x != p[x]) {
+				p[x] = p[p[x]];
+				x = p[x];
 			}
-			return i;
+			return x;
 		};
-		auto unionf = [&](int i, int j) {
-			int p1 = findf(i), p2 = findf(j);
-			if (p1 != p2) { p[p2] = p1; }
+		auto unionFunc = [&](int i, int j) {
+			int p1 = findFunc(i), p2 = findFunc(j);
+			if (p1 != p2) {
+				p[p2] = p1;
+			}
 		};
 
-		for (int i = 0; i < cnt; ++i) {
-			int x1 = i / col, y1 = i % col;
-			int x2 = x1+1, y2 = y1+1;
-
-			if (x2 < row && grid[x1][y1] == '1' && grid[x2][y1] == '1') {
-				unionf(i, i+col);
-			}
-			if (y2 < col && grid[x1][y1] == '1' && grid[x1][y2] == '1') {
-				unionf(i, i+1);
+		// 1-2, 2-2; 2-3;
+		// 3-3;
+		// p[1] = 2 != 3; p[1] = p[p[2]] = 3;
+		// x = 3; p[3] = 3
+		for (int x = 0; x < row; ++x) {
+			for (int y = 0; y < col; ++y) {	
+				if (grid[x][y] != '1') { continue; }
+				int i = x * col + y;
+				int x1 = x-1, y1 = y;
+				if (x1 >= 0 && grid[x1][y1] == '1') {
+					int j = x1 * col + y1;
+					unionFunc(i, j);
+				}
+				int x2 = x, y2 = y-1;
+				if (y2 >= 0 && grid[x2][y2] == '1') {
+					int j = x2 * col + y2;
+					unionFunc(i, j);
+				}
 			}
 		}
 
 		unordered_set<int> us;
-		for (int i = 0; i < cnt; ++i) {
-			int x1 = i / col, y1 = i % col;
-			if (grid[x1][y1] == '1') { us.insert(findf(i)); }
+		for (auto num : p) {
+			int x = num / col, y = num % col;
+			if (grid[x][y] == '1') {
+				int x = findFunc(num);
+				us.insert(x);
+			}
 		}
-
 		return us.size();
     }
 };
