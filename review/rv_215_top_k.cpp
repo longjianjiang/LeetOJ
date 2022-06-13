@@ -9,44 +9,48 @@
 #include <unordered_map>
 using namespace std;
 
-// 2 3 1 5 4
-// 2 1 3 5 4
+// 2 0 1 5 4
 
 // 3 4 2 1 5
 // 3 2 4 1 5
 // 3 2 1 4 5
 // 1 2 3 4 5
 int partition(vector<int>& nums, int left, int right) {
+	int nsize = nums.size();
 	int pivot = nums[left];
-	int pos = left;
 
-	for (int i = pos+1; i <= right; ++i) {
+	int pos = left;
+	// 确定pivot的位置，出现一个小于pivot的值，idx右移一次。
+	for (int i = left + 1; i <= right; ++i) {
 		if (nums[i] < pivot) {
 			++pos;
-			if (i != pos) { swap(nums[i], nums[pos]); }
+			if (i != pos) {
+				swap(nums[pos], nums[i]);
+			}
 		}
 	}
-	swap(nums[pos], nums[left]);
-//	nums[pos] = pivot;
-
+	swap(nums[left], nums[pos]);
 	return pos;
 }
 
 int findKthLargest(vector<int>& nums, int k) {
 	int nsize = nums.size();
-	int target = nsize - k;
+	if (nsize == 0) { return -1; }
+	if (k > nsize) { return -1; }
 
-	int left = 0, right = nsize-1;
-	while (1) {
-		int pos = partition(nums, left, right);
+	int target = nsize - k;
+	int l = 0, r = nsize - 1;
+	while (l <= r) {
+		int pos = partition(nums, l, r);
 		if (pos == target) {
-			return nums[target];
+			return nums[pos];
 		} else if (pos > target) {
-			right = pos - 1;
+			r = pos - 1;
 		} else {
-			left = pos + 1;
+			l = pos + 1;
 		}
 	}
+	return -1;
 }
 
 // 3 4 5 2 1
