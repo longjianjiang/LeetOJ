@@ -9,12 +9,29 @@
 #include <unordered_map>
 using namespace std;
 
-// 2 0 1 5 4
+// 2 3 1 5 4
+// 1 3 1 5 4 right = 2;
+// 1 3 3 5 4 left = 1
+
+
 
 // 3 4 2 1 5
 // 3 2 4 1 5
 // 3 2 1 4 5
 // 1 2 3 4 5
+
+int partition_2(vector<int>& nums, int left, int right) {
+	int pivot = nums[left];
+	while (left < right) {
+		while (left < right && nums[right] >= pivot) { --right; }
+		if (left < right) { nums[left] = nums[right]; }
+		while (left < right && nums[left] <= pivot) { ++left; }
+		if (left < right) { nums[right] = nums[left]; }
+	}
+	nums[left] = pivot;
+	return left;
+}
+
 int partition(vector<int>& nums, int left, int right) {
 	int nsize = nums.size();
 	int pivot = nums[left];
