@@ -30,13 +30,35 @@ public:
 			nums.insert(nums.begin()+i, num);
 		}
 	}
-    vector<vector<int>> permute(vector<int>& nums) {
+    vector<vector<int>> permute_dfs(vector<int>& nums) {
 		vector<vector<int>> res;
 		vector<int> chosen;
 		dfs(res, chosen, nums.size(), nums);
 
 		return res;
     }
+
+	vector<vector<int>> permute(vector<int>& nums) {
+		int nsize = nums.size();
+		if (nsize == 0) { return {}; }
+		if (nsize == 1) {
+			return {nums};
+		} else {
+			int n = nums[0];
+			nums.erase(nums.begin());
+			auto tmp = permute(nums);
+
+			vector<vector<int>> res;
+			for (auto arr : tmp) {
+				for (int i = 0; i <= arr.size(); ++i) {
+					arr.insert(arr.begin()+i, n);
+					res.push_back(arr);
+					arr.erase(arr.begin()+i);
+				}
+			}
+			return res;
+		}
+	}
 };
 // 1 2 3
 // chosen [1, 2], nums [3]
