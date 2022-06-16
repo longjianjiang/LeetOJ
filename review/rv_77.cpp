@@ -15,32 +15,32 @@ using namespace std;
 //    i = 4;
 class Solution {
 public:
-	void dfs(vector<vector<int>>& res, vector<int> chosen, vector<int> nums, int count, int idx) {
-        if (chosen.size() == count) {
+    void dfs(vector<int> nums, vector<int>& chosen, int idx, int k, vector<vector<int>>& res) {
+        if (chosen.size() == k) {
             res.push_back(chosen);
             return;
         }
-        int nsize = nums.size();
-        if (idx >= nsize || chosen.size() > count) { return; }
-        for (int i = idx; i < nsize; ++i) {
+        for (int i = idx; i < nums.size(); ++i) {
             int num = nums[i];
             chosen.push_back(num);
-            dfs(res, chosen, nums, count, i+1);
+            dfs(nums, chosen, i+1, k, res);
             chosen.pop_back();
         }
-	}
+    }
 
     vector<vector<int>> combine(int n, int k) {
-		vector<int> nums;
-		for (int i = 1; i <= n; ++i) {
-			nums.push_back(i);
-		}
+        if (n <= 0) { return {}; }
+        if (n == 1) { return {{1}}; }
 
-		vector<vector<int>> res;
-		vector<int> chosen;
-		dfs(res, chosen, nums, k, 0);
+        vector<int> nums;
+        for (int i = 1; i <= n; ++i) { nums.push_back(i); }
 
-		return res;
+        vector<vector<int>> res;
+        vector<int> chosen;
+
+        dfs(nums, chosen, 0, k, res);
+
+        return res;
     }
 };
 
