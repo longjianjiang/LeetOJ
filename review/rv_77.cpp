@@ -42,6 +42,35 @@ public:
 
         return res;
     }
+
+	vector<vector<int>> combine(int n, int k) {
+		if (k > n || n <= 0) {
+			return {};
+		}
+		if (k == 1) {
+			vector<vector<int>> res;
+			for (int i = 1; i <= n; ++i) {
+				res.push_back({i});
+			}
+			return res;
+		}
+		if (k == n) {
+			vector<int> res;
+			for (int i = 1; i <= n; ++i) {
+				res.push_back(i);
+			}
+			return {res};
+		}
+		// n = 4, k = 2
+		// [1, 2, 3, 4]
+		vector<vector<int>> res(combine(n-1, k));
+		vector<vector<int>> tmp = combine(n-1, k-1);
+		for (auto arr : tmp) {
+			arr.push_back(n);
+			res.push_back(arr);
+		}
+		return res;
+	}
 };
 
 void show_arr_one_dimensional(vector<int> arr) {
