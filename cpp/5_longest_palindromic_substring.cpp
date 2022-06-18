@@ -11,7 +11,7 @@ using namespace std;
 
 // 给你一个字符串 s，找到 s 中最长的回文子串。
 // s = "babad"
-// 1> brute force, two for loop;
+// 1> 遍历，根据回文的特点进行两端进行移动，定位到子串;
 class Solution {
 public:
     string longestPalindrome(string s) {
@@ -29,16 +29,13 @@ public:
                 us.insert(s[r]);
                 ++r;
             }
-
             // babad
             if (s[r] == s[r-1]) {
                 l = r-1;
+                // case "sooos"
+                while (r + 1 < nsize && s[r+1] == s[r]) { ++r; }
                 while (l-1 >= 0 && r+1 < nsize && s[l-1] == s[r+1]) {
                     --l; ++r;
-                }
-                // case "aaa"
-                while (r+1 < nsize && s[r+1] == s[l]) {
-                    ++r;
                 }
                 string tmp = s.substr(l, r-l+1);
                 if (tmp.size() > res.size()) {
@@ -59,7 +56,6 @@ public:
             }
         }
         return res;
-
     }
 };
 
