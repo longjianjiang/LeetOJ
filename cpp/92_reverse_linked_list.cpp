@@ -21,6 +21,28 @@ using namespace std;
  */
 class Solution {
 public:
+	ListNode* reverseBetween(ListNode *head, int left, int right) {
+		if (!head || !head->next) { return head; }
+		if (left >= right) { return head; }
+
+		auto dummy = new ListNode(0);
+		dummy->next = head;
+		auto pre = dummy;
+		for (int i = 1; i < left; ++i) {
+			pre = pre->next;
+		}
+		auto cur = pre->next;
+		// 每次移动，移动一位到前面；2-3-4 => 3-2-4 => 4-3-2
+		for (int i = left; left < right; ++i) {
+			auto nextNode = cur->next;
+			cur->next = nextNode->next;
+			nextNode->next = pre->next;
+			pre->next = nextNode;
+		}
+
+		return dummy->next;
+	}
+
     ListNode* reverseBetween(ListNode* head, int left, int right) {
 		if (left >= right) { return head; }
 		if (!head || !head->next) { return head; }
