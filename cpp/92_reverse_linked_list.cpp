@@ -32,8 +32,11 @@ public:
 			pre = pre->next;
 		}
 		auto cur = pre->next;
-		// 每次移动，移动一位到前面；2-3-4 => 3-2-4 => 4-3-2
-		for (int i = left; left < right; ++i) {
+		// 0-1-2-3-4-5 => 0-1-4-3-2-5
+		// nextNode = 3, 2-4, 3-2-4-5, 1-3-2-4-5
+		// 0-1-3-2-4-5 
+		// nextNode = 4, 2-5, 4-3-2-5, 1-4-3-2-5
+		for (int i = left; i < right; ++i) {
 			auto nextNode = cur->next;
 			cur->next = nextNode->next;
 			nextNode->next = pre->next;
