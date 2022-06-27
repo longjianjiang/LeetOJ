@@ -24,6 +24,20 @@ public:
 	ListNode* reverseBetween(ListNode *head, int left, int right) {
 		if (!head || !head->next) { return head; }
 		if (left >= right) { return head; }
+		if (left == 1) {
+			auto tmp = reverseBetween(head->next, 1, right-1);
+			auto tail = head->next->next;
+			head->next->next = head;
+			head->next = tail;
+
+			return tmp;
+		} else {
+			// 1-2-3-4, left = 3, right = 4; 1-2-4-3
+			head->next = reverseBetween(head->next, left-1, right-1);
+			return head;
+		}
+	}
+	ListNode* reverseBetween(ListNode *head, int left, int right) {
 
 		auto dummy = new ListNode(0);
 		dummy->next = head;
