@@ -13,18 +13,16 @@ class Solution {
 public:
     int maxSubArray(vector<int>& nums) {
 		int nsize = nums.size();
-		if (nsize == 0) { return 0; }
-		if (nsize == 1) { return nums[0]; }
-		
-		int maxSum = nums[0];
-		int dpSum = maxSum;
-		for (int i = 1; i < nsize; ++i) {
-			int tmp = nums[i];
-			dpSum = max(tmp, tmp + dpSum);
-			maxSum = max(maxSum, dpSum);
-		}
 
-		return maxSum;
+        int sum = nums[0];
+        int res = sum;
+        for (int i = 1; i < nsize; ++i) {
+			// 连续range最大
+            sum = max(nums[i], sum + nums[i]);
+			// 总的最大
+            res = max(res, sum);
+        }
+        return res;
     }
 
 	int helper(vector<int>& nums, int left, int right) {
