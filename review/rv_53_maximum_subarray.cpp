@@ -11,6 +11,39 @@ using namespace std;
 
 class Solution {
 public:
+	// 归并的思路
+	int helper(vector<int>& nums, int l, int r) {
+		if (l == r) {
+			return nums[l];
+		}
+		int mid = l + (r - l) / 2;
+		int leftSum = helper(nums, l, mid);
+		int rightSum = helper(nums, mid+1, r);
+
+		int leftSuffixSum = nums[mid];
+		int leftSuffixMax = nums[mid];
+		for (int i = mid-1; i >= l; --i) {
+			leftSuffixSum += nums[i];
+			leftSuffixMax = max(leftSuffixMax, leftSuffixSum);
+		}
+		int rightPrefixSum = nums[mid+1];
+		int rightPrefixMax = nums[mid+1];
+		for (int i = mid+2; i <= r; ++i) {
+			rightPrefixSum += nums[i];
+			rightPrefixMax = max(rightPrefixMax, rightPrefixSum);
+		}
+		int rangeSum = leftSuffixMax + rightPrefixMax;
+		return max(rangeSum, max(leftSum, rightSum));
+	}
+
+	int maxSubArray(vector<int>& nums) {
+		int nsize = nums.size();
+		if (nsize == 0) { return 0; }
+		if (nsize == 1) { return nums[0]; }
+
+		int l = 0, r = nsize -1;
+		return helper(nums, l, r);
+	}
     int maxSubArray(vector<int>& nums) {
 		int nsize = nums.size();
 
@@ -24,37 +57,4 @@ public:
         }
         return res;
     }
-
-	int helper(vector<int>& nums, int left, int right) {
-		if (left == right) { return nums[left]; }
-		
-		int mid = left + (right - left) / 2;
-		int leftSum = helper(nums, left, mid);
-		int rightSum = helper(nums, mid+1, right);
-
-		int leftSuffixMax = nums[mid];
-		int leftSuffixSum = leftSuffixMax;
-		for (int i = mid-1; i >= left; --i) {
-			leftSuffixSum += nums[i];
-			leftSuffixMax = max(leftSuffixSum, leftSuffixMax);
-		}
-
-		int rightPrefixMax = nums[mid+1];
-		int rightPrefixSum = rightPrefixMax;
-		for (int i = mid+2; i <= right; ++i) {
-			rightPrefixSum += nums[i];
-			rightPrefixMax = max(rightPrefixSum, rightPrefixMax);
-		}
-
-		int rangeSum = leftSuffixMax + rightPrefixMax;
-		return max(rangeSum, max(leftSum, rightSum));
-	}
-
-	int maxSubArray(vector<int>& nums) {
-		int nsize = nums.size();
-		if (nsize == 0) { return 0; }
-		if (nsize == 1) { return nums[0]; }
-
-		return helper(nums, 0, nsize-1);
-	}
 };
