@@ -19,26 +19,28 @@ using namespace std;
 class Solution {
 public:
     int minSubArrayLen(int target, vector<int>& nums) {
-		int nsize = nums.size();
+    	int nsize = nums.size();
 		if (nsize == 0) { return 0; }
 
 		int l = 0, r = 0;
-		int minLen = INT_MAX;
+		int res = nsize + 1;
+		int sum = 0;
 		while (r < nsize) {
-			int tmp = 0;
-			for (int i = l; i <= r; ++i) {
-				tmp += nums[i];
-			}
-			if (tmp >= target) {
-				int len = r-l+1;
-				if (len < minLen) { minLen = len; }
-				++l;
-			} else {
-				++r;
-			}
+			sum += nums[r];
+			if (sum >= target) {
+				res = min(res, r-l+1);
+				do {
+					sum -= nums[l];
+					++l;
+					if (sum >= target) {
+						res = min(res, r-l+1);
+					}
+				} while (sum - nums[l] >= target);
+			} 
+			++r;
 		}
 
-		return minLen > nsize ? 0 : minLen;
+		return res > nsize ? 0 : res;
     }
 };
 
