@@ -18,6 +18,24 @@ using namespace std;
 // 1> sliding window
 class Solution {
 public:
+	int minSubArrayLen(int target, vector<int>& nums) {
+		int nsize = nums.size();
+		if (nsize == 0) { return 0; }
+
+		int l = 0, r = 0;
+		int res = nsize + 1;
+		int sum = 0;
+		// [2, 3, 1, 2, 4, 3]
+		while (r < nsize) {
+			sum += nums[r++];
+			while (sum >= target) {
+				res = min(res, r - l);
+				sum -= nums[l++];
+			}
+		}
+
+		return res > nsize ? 0 : res;
+	}
     int minSubArrayLen(int target, vector<int>& nums) {
     	int nsize = nums.size();
 		if (nsize == 0) { return 0; }
