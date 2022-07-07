@@ -19,26 +19,25 @@ using namespace std;
 class Solution {
 public:
     int subarraySum(vector<int>& nums, int k) {
-		if (nums.empty()) { return 0; }
 		int nsize = nums.size();
+        if (nsize == 0) { return 0; }
 
-		vector<int> prefix;
-		int sum = 0;
-		for (int i = 0; i < nsize; ++i) {
-			sum += nums[i];
-			prefix.push_back(sum);
-		}
-		int res = 0;
-		unordered_map<int, int> dict;
-		for (int i = 0; i < nsize; ++i) {
-			int prefixSum = prefix[i];
-			if (prefixSum == k) { ++res; }
+        vector<int> prefix(nsize+1, 0);
+        for (int i = 0; i < nsize; ++i) {
+            prefix[i+1] = prefix[i] + nums[i];
+        }
 
-			int diff = prefixSum - k;
-			if (dict.count(diff)) { res += dict[diff]; }
-			dict[prefixSum] += 1;
-		}
+        int res = 0;
+        unordered_map<int, int> dict;
+        for (int i = 0; i < nsize; ++i) {
+            int prefixSum = prefix[i+1];
+            if (prefixSum == k) { ++res; }
 
-		return res;
+            int diff = prefixSum - k;
+            if (dict.find(diff) != dict.end()) { res += dict[diff]; }
+            dict[prefixSum] += 1;
+        }
+
+        return res;
     }
 };
