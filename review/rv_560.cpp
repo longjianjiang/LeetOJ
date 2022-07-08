@@ -16,6 +16,8 @@ using namespace std;
  输出: 2 , [1,1] 与 [1,1] 为两种不同的情况。
  */
 
+// 1. brute force;
+// 2. range(i, j) == k => prefix[j+1] - prefix[i] == k;
 class Solution {
 public:
     int subarraySum(vector<int>& nums, int k) {
@@ -27,17 +29,16 @@ public:
             prefix[i+1] = prefix[i] + nums[i];
         }
 
-        int res = 0;
-        unordered_map<int, int> dict;
-        for (int i = 0; i < nsize; ++i) {
-            int prefixSum = prefix[i+1];
-            if (prefixSum == k) { ++res; }
+		int res = 0;
+		unordered_map<int, int> dict;
+		for (int i = 0; i < nsize; ++i) {
+			int sum = prefix[i+1];
+			if (sum == k) { ++res; }
 
-            int diff = prefixSum - k;
-            if (dict.find(diff) != dict.end()) { res += dict[diff]; }
-            dict[prefixSum] += 1;
-        }
-
-        return res;
+			int diff = sum - k;
+			if (dict.find(diff) != dict.end()) { res += dict[diff]; }
+			dict[sum] += 1;
+		}
+		return res;
     }
 };
