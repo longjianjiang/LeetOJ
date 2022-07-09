@@ -43,10 +43,10 @@ public:
 		}
 		
 		unordered_map<int, int> dict;
-        dict[0] = -1; // case prefix % k == 0
+        //dict[0] = -1; // case prefix % k == 0
 		for (int i = 0; i < nsize; ++i) {
 			int sum = prefix[i+1];
-			// if (sum % k == 0) { return true; }
+			if (i > 0 && sum % k == 0) { return true; } // [0, x, x]
             
 			int remainder = sum % k;
 			if (dict.find(remainder) != dict.end()) {
