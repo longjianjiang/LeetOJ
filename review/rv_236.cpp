@@ -22,7 +22,7 @@ class Solution {
 public:
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
 		if (!root) { return NULL; }
-		if (root == p || root == q) { return root; }
+		if (p == root || q == root) { return root; }
 
 		auto left = lowestCommonAncestor(root->left, p, q);
 		auto right = lowestCommonAncestor(root->right, p, q);
@@ -33,8 +33,7 @@ public:
 			return right;
 		} else if (!right) {
 			return left;
-		} else {
-			return NULL;
 		}
+		return NULL;
     }
 };
