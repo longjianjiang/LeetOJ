@@ -19,7 +19,36 @@ using namespace std;
 
 class Solution {
 public:
-    int findMaxLength(vector<int>& nums) {
+	int findMaxLength(vector<int>& nums) {
+		int nsize = nums.size();
+		if (nsize < 2) { return 0; }
+
+		vector<int> prefix(nsize + 1, 0);
+		for (int i = 0; i < nsize; ++i) {
+			int num = nums[i] == 0 ? -1 : 1;
+			prefix[i+1] = prefix[i] + num;
+		}
+
+		unordered_map<int, int> dict;
+		dict[0] = -1;
+		int res = 0;
+		// [0, 1, 0]
+		// [-1, 0, -1]
+		// [0, 0, 1, 1]
+		// [-1, -2, -1, 0]
+		for (int i = 0; i < nsize; ++i) {
+			int sum = prefix[i+1];
+			if (dict.find(sum) != dict.end()) {
+				int len = i - dict[sum];
+				res = max(res, len);
+			} else {
+				dict[sum] = i;
+			}
+		}
+		return res;
+
+	}
+    int findMaxLength2(vector<int>& nums) {
 		int nsize = nums.size();
 		if (nsize < 2) { return 0; }
 
