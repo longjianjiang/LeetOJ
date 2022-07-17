@@ -23,7 +23,7 @@ public:
 		int nsize = nums.size();
 		if (nsize < 2) { return 0; }
 
-		vector<int> prefix(nsize + 1, 0);
+		vector<int> prefix(nsize+1, 0);
 		for (int i = 0; i < nsize; ++i) {
 			int num = nums[i] == 0 ? -1 : 1;
 			prefix[i+1] = prefix[i] + num;
@@ -49,6 +49,25 @@ public:
 
 	}
     int findMaxLength2(vector<int>& nums) {
+		unordered_map<int, int> dict;
+		int res = 0;
+		for (int i = 0; i < nsize; ++i) {
+			int sum = prefix[i+1];
+			if (i > 0 && i % 2 == 0) {
+				res = max(res, i + 1);
+			}
+			int remainder = sum % 2;
+			if (dict.find(remainder) != dict.end()) {
+				res = max(res, i - dict[remainder] + 1);
+			} else {
+				dict[remainder] = i;
+			}
+		}
+
+		return res;
+	}
+	// 暴力
+    int findMaxLength(vector<int>& nums) {
 		int nsize = nums.size();
 		if (nsize < 2) { return 0; }
 
