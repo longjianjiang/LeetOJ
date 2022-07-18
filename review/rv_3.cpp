@@ -58,6 +58,32 @@ int lengthOfLongestSubstring_sw(string s) {
 	return res;
 }
 
+int lengthOfLongestSubstring(string s) {
+	int nsize = s.size();
+	if (nsize <= 1) { return nsize; }
+
+	int l = 0, r = 0;
+	int res = 0;
+	unordered_set<char> us;
+	while (r < nsize) {
+		char ch = s[r];
+		if (us.find(ch) != us.end()) {
+			int len = r - l;
+			res = max(res, len);
+			while (s[l] != ch) {
+				us.erase(s[l]);
+				++l;
+			}
+			++l;
+		} else {
+			us.insert(ch);
+		}
+		++r;
+	}
+	res = max(res, r-l);
+	return res;
+}
+
 
 void unit_test() {
 	assert(lengthOfLongestSubstring("dvdf") == 3);
