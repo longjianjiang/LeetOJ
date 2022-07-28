@@ -30,6 +30,10 @@ public:
 		for (auto num : nums) {
 			res += to_string(num);
 		}
+		// case [0, 0]
+		if (res.size() > 1 && res[0] == '0') {
+            return "0";
+        }
 		return res;
     }
 };
