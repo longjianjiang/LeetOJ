@@ -78,8 +78,7 @@ public:
 		int l = 0, r = 0;
 		int res = nsize + 1;
 		int sum = 0;
-		while (r < nsize) {
-			sum += nums[r];
+		while (r < nsize) { sum += nums[r];
 			if (sum >= target) {
 				res = min(res, r-l+1);
 				do {
@@ -95,6 +94,25 @@ public:
 
 		return res > nsize ? 0 : res;
     }
+	int minSubArrayLen3(int target, vector<int>& nums) {
+		int nsize = nums.size();
+		
+		int l = 0, r = 0;
+		int res = nsize + 1;
+		int sum = 0;
+		while (r < nsize) {
+			sum += nums[r];
+			if (sum >= target) {
+				do {
+					int len = r - l + 1;
+					res = min(res, len);
+					sum -= nums[l++];
+				} while (sum >= target);
+			}
+			++r;
+		}
+		return res > nsize ? 0 : res;
+	}
 };
 
 void unit_test() {
