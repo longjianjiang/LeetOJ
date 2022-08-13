@@ -18,17 +18,17 @@ using namespace std;
 // 1> sliding window
 class Solution {
 public:
-	int bs(vector<int>& prefix, int left, int right, int target) {
-		while (left <= right) {
-			int mid = left + (right - left) / 2;
+	int bs(vector<int>& prefix, int l, int r, int target) { 
+		while (l <= r) {
+			int mid = l + (r - l) / 2;
 			if (prefix[mid] >= target) {
 				if (mid == 0 || prefix[mid-1] < target) {
 					return mid;
 				} else {
-					right = mid - 1;
+					r = mid - 1;
 				}
 			} else {
-				left = mid + 1;
+				l = mid + 1;
 			}
 		}
 		return -1;
@@ -110,6 +110,29 @@ public:
 				} while (sum >= target);
 			}
 			++r;
+		}
+		return res > nsize ? 0 : res;
+	}
+	int bs2(vector<int>& prefix, int l, int r, int target) {
+
+	}
+	// [   2, 3, 1, 2, 4, 3]
+	// [0, 2, 5, 6, 8, 12, 15]
+	int minSubArrayLen4(int target, vector<int>& nums) {
+		int nsize = nums.size();
+		if (nsize == 0) { return nsize; }
+
+		vector<int> prefix(nsize+1, 0);
+		for (int i = 0; i < nsize; ++i) {
+			int tmp = nums[i];
+			if (tmp >= target) { return 1; }
+			prefix[i+1] = prefix[i] + tmp;
+		}
+		int res = nsize + 1;
+		for (int i = 0; i < nsize; ++i) {
+			int pos = bs(prefix, i+1, nsize, prefix[i]+target);
+			if (pos == -1) { continue; }
+			res = min(res, pos - i);
 		}
 		return res > nsize ? 0 : res;
 	}
