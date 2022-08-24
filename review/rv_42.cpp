@@ -11,6 +11,33 @@ using namespace std;
 
 class Solution {
 public:
+	int trap(vector<int>& height) {
+		int nsize = height.size();
+		if (nsize <= 2) { return 0; }
+
+		int idx = 0;
+		while (height[idx] <= 0) {
+			++idx;
+		}
+		stack<int> stk;
+		int res = 0;
+		// 1 2 3
+		while (idx < nsize) {
+			int tmp = height[idx];
+			if (stk.empty() || tmp < height[stk.top()]) {
+				// 保证左边界是最高的
+				stk.push(idx++);
+			} else {
+				int top = height[stk.top()]; stk.pop();
+				if (stk.empty()) { continue; }
+				int areaH = min(height[stk.top()], tmp) - top; 
+				int areaW = idx - stk.top() - 1;
+				res += (areaW * areaH);
+			}
+		}
+		return res;
+	}
+
     int trap(vector<int>& height) {
 		int nsize = height.size();
 		if (nsize <= 2) { return 0; }
