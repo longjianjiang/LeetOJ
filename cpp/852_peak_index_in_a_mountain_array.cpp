@@ -24,9 +24,9 @@ public:
 			if (A[mid] > A[mid-1] && A[mid] > A[mid+1]) {
 				return mid;
 			} else if (A[mid] < A[mid-1]) {
-				right = mid-1;
+				right = mid;
 			} else {
-				left = mid+1;
+				left = mid;
 			}
 		}
 
