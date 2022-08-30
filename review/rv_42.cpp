@@ -40,23 +40,23 @@ public:
 
     int trap(vector<int>& height) {
 		int nsize = height.size();
-		if (nsize <= 2) { return 0; }
+        if (nsize < 3) { return 0; }
 
-		int l = 0, r = nsize - 1;
-		int res = 0, edgeHeight = 0;
-		while (l <= r) {
-			int tmp = min(height[l], height[r]);
-			if (tmp < edgeHeight) {
-				res += edgeHeight - tmp;
-			} else {
-				edgeHeight = tmp;
-			}
-			if (height[l] < height[r]) {
-				++l;
-			} else {
-				--r;
-			}
-		}
-		return res;
+        int l = 0, r = nsize - 1;
+        int res = 0, borderH = 0;
+        while (l <= r) {
+            int tmp = min(height[l], height[r]);
+            if (tmp < borderH) {
+                res += (borderH - tmp);
+            } else {
+                borderH = tmp;
+            }
+            if (height[l] < height[r]) {
+                ++l;
+            } else {
+                --r;
+            }
+        }
+        return res;
     }
 };
