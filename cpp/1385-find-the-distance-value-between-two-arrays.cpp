@@ -23,49 +23,56 @@ public:
             else lo=mid+1;
         }
         return -1;
-
-        // int left = 0, right = nums.size()-1;
-
-        // while (left < right) {
-        //     int mid = left + (right-left)/2;
-        //     if (nums[mid] < nums[mid+1]) {
-        //         left = mid+1;
-        //     } else {
-        //         right = mid;
-        //     }
-        // }
-
-        // return left; // right 
     }
 
+	bool helper(vector<int>& arr2, int num, int d) {
+        // 3, 2, 1, 0, 1
+		int nsize = arr2.size();
+		int minLen = INT_MAX;
+		if (nsize == 1) {
+			minLen = abs(num - arr2[0]);
+			return minLen > d;
+		}
+		int len1 = abs(num - arr2[0]);
+		int len2 = abs(num - arr2[1]);
+		if (len1 < len2) {
+			minLen = len1;
+			return minLen > d;
+		}
+		len1 = abs(num - arr2[nsize-1]);
+		len2 = abs(num - arr2[nsize-2]);
+		if (len1 < len2) {
+			minLen = len1;
+			return minLen > d;
+		}
+		int l = 1, r = nsize-2;
+		while (l <= r) {
+			int mid = l + (r - l) / 2;
+			int lenMid = abs(num - arr2[mid]);
+			int lenMidLeft = abs(num - arr2[mid-1]);
+			int lenMidRight = abs(num - arr2[mid+1]);
+			if (lenMid < min(lenMidLeft, lenMidRight)) {
+				minLen = lenMid;
+				break;
+			} else if (lenMid > lenMidLeft) {
+				r = mid - 1;
+			} else {
+				l = mid + 1;
+			}
+		}
+		if (minLen < INT_MAX && minLen > d) {
+			return true;
+		}
+		return false;
+	}
     int findTheDistanceValue(vector<int>& arr1, vector<int>& arr2, int d) {
 		sort(arr2.begin(), arr2.end());
 
         int nsize1 = arr1.size(), nsize2 = arr2.size();
         int res = 0;
-        // 3, 2, 1, 0, 1
         for (int i = 0; i < nsize1; ++i) {
-            vector<int> tmp;
-            for (int j = 0; j < nsize2; ++j) {
-                tmp.push_back(abs(arr1[i] - arr2[j]));
-            }
-            int num = arr1[i];
-            int l = 0, r = nsize2-1;
-            while (l < r) {
-                int mid = l + (r - l) / 2;
-                int lenMid = abs(num - arr2[mid]);
-                int lenRight = abs(num - arr2[mid+1]);
-                if (lenMid > lenRight) {
-                    l = mid + 1;
-                } else {
-                    r = mid;
-                }
-            }
-            int minLen = abs(num - arr2[l]);
-            if (minLen > d) {
-                ++res;
-                cout << "i = " << i << ", num = " << arr1[i] << endl;
-            }
+			int num = arr1[i];
+			if (helper(arr2, num, d)) { ++res; }
         }
 
         return res;
