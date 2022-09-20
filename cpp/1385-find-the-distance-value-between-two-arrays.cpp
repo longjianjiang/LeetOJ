@@ -65,14 +65,31 @@ public:
 		}
 		return false;
 	}
+
+    bool bs(vector<int>& arr, int num, int d) {
+        int l = 0, r = arr.size()-1;
+        while (l <= r) {
+            int mid = l + (r - l) / 2;
+            // 注意数组有序
+            int tmp = abs(arr[mid] - num);
+            if (tmp <= d) {
+                return false;
+            } else if (arr[mid] < num) {
+                l = mid + 1;
+            } else {
+                r = mid - 1;
+            }
+        }
+        return true;
+    }
+
     int findTheDistanceValue(vector<int>& arr1, vector<int>& arr2, int d) {
 		sort(arr2.begin(), arr2.end());
 
-        int nsize1 = arr1.size(), nsize2 = arr2.size();
+        int nsize1 = arr1.size();
         int res = 0;
         for (int i = 0; i < nsize1; ++i) {
-			int num = arr1[i];
-			if (helper(arr2, num, d)) { ++res; }
+			if (helper(arr2, arr1[i], d)) { ++res; }
         }
 
         return res;
