@@ -89,7 +89,7 @@ public:
         int nsize1 = arr1.size();
         int res = 0;
         for (int i = 0; i < nsize1; ++i) {
-			if (helper(arr2, arr1[i], d)) { ++res; }
+			if (bs(arr2, arr1[i], d)) { ++res; }
         }
 
         return res;
