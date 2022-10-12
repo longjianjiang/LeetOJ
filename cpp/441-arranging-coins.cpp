@@ -11,40 +11,28 @@ using namespace std;
 
 class Solution {
 public:
-    long long getSum(int n) {
-        if (n <= 1) { return n; }
-
-        int i = 1; int j = n;
-        long long sum = 0;
-        while (i < j) {
-            sum += (i + j);
-            ++i; --j;
-        }
-        if (i == j) { sum += j; }
-        return sum;
+	long long getSum(long long n) {
+        return n * (n + 1)/2;
     }
 
     int arrangeCoins(int n) {
         if (n < 1) { return 0; }
         if (n == 1) { return 1; }
-        // 2; 1, 2
-        // 3; 1, 2
 
-        // 4; 1, 3
-        // 5; 1, 3
-
-        int l = 1, r = n / 2 + 1;
+        long long res = 0;
+        long long l = 1, r = n / 2 + 1;
         while (l <= r) {
-            int mid = l + (r - l) / 2;
-            int sum = getSum(mid);
+            long long mid = l + (r - l) / 2;
+            long long sum = getSum(mid);
             if (sum == n) {
                 return mid;
             } else if (sum > n) {
-                return mid - 1;
+                r = mid - 1;
             } else {
+                res = mid;
                 l = mid + 1;
             }
         }
-        return -1;
+        return res;
     }
 };
