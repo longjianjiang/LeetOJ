@@ -57,4 +57,32 @@ public:
 
 		return dummy->next;
     }
+
+	ListNode* removeZeroSumSublists(ListNode *head) {
+		if (!head) { return head; }
+
+		auto dummy = new ListNode(0);
+		dummy->next = head;
+		unordered_map<int, ListNode *> um;
+		um[0] = dummy;
+		auto node = head;
+		int cnt = 0;
+		while (node) {
+			cnt += node->val;
+			if (um.find(cnt) != um.end()) {
+				auto prev = um[cnt];
+				auto prevNext = prev->next;
+				int sum = cnt;
+				while (prevNext != node) {
+					sum += prevNext->val;
+					um.erase(sum);
+					prevNext = prevNext->next;
+				}
+				prev->next = node->next;
+			} else {
+				um[cnt] = node;
+			}
+		}
+		return dummy->next;
+	}
 };
