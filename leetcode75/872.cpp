@@ -46,6 +46,26 @@ public:
 		return res.back();
 	}
 	vector<int> getLeafList(TreeNode *root) {
+		if (!root) { return {}; }
+
+		stack<TreeNode *> stk;
+		vector<int> res;
+		auto node = root;
+
+		while (stk.empty() == false || node) {
+			while (node) {
+				stk.push(node);
+				node = node->left;
+			}
+			auto top = stk.top(); stk.pop();
+			if (!top->right && !top->left) { // case 1-2 & 2-2
+				res.push_back(top->val);
+			} else {
+				node = top->right;
+			}
+		}
+
+		return res;
 	}
 	bool leafSimilar(TreeNode* root1, TreeNode* root2) {
 		vector<int> arr1 = getLeafList(root1);
