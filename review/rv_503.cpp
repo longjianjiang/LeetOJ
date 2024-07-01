@@ -11,6 +11,23 @@ using namespace std;
 
 class Solution {
 public:
+	vector<int> nextGreaterElementsV2(vector<int>& nums) {
+        int nsize = nums.size();
+        vector<int> res(nsize, -1);
+        stack<int> stk;
+
+        for (int i = 0; i < nsize * 2; ++i) {
+            int tmp = nums[i % nsize];
+            while (stk.empty() == false && nums[stk.top() % nsize] < tmp) {
+                int idx = stk.top();
+                res[idx % nsize] = tmp;
+                stk.pop();
+            }
+            stk.push(i % nsize);
+        }
+
+        return res;
+    }
     vector<int> nextGreaterElements(vector<int>& nums) {
 		if (nums.empty()) { return {}; }
 		int nsize = nums.size();
