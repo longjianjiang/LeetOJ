@@ -1,14 +1,3 @@
-#include <iostream>
-#include <vector>
-#include <string>
-#include <stack>
-#include <queue>
-#include <map>
-#include <set>
-#include <unordered_set>
-#include <unordered_map>
-using namespace std;
-
 /**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -22,67 +11,33 @@ using namespace std;
 class Solution {
 public:
     ListNode* removeZeroSumSublists(ListNode* head) {
-		if (!head) { return head; }
-        if (!head->next) {
-            if (head->val == 0) {
-                return nullptr;
+        if (!head || !head->next) { return head;}
+        auto dummy = new ListNode(0, head);
+
+        unordered_map<int, ListNode *> sumMap;
+        sumMap[0] = dummy;
+
+        auto node = head;
+        int sum = 0;
+
+        while (node) {
+            int val = node->val;
+            sum += val;
+            if (sumMap.find(sum) == sumMap.end()) {
+                sumMap[sum] = node;
             } else {
-                return head;
+                auto start = sumMap[sum]->next;
+                int tmpSum = sum;
+                while (start != node) {
+                    tmpSum += start->val;
+                    sumMap.erase(tmpSum);
+                    start = start->next;
+                }
+                sumMap[sum]->next = node->next;
             }
+
+            node = node->next;
         }
-
-		auto dummy = new ListNode(0, head);
-		unordered_map<int, ListNode *> um;
-		int cnt = 0;
-		um[0] = dummy;
-
-		auto node = head;
-		while (node) {
-			cnt += node->val;
-			if (um.find(cnt) != um.end()) {
-				auto prev = um[cnt];
-				auto tmp = prev->next;
-				auto sum = cnt;
-				while (tmp != node) {
-					sum += tmp->val;
-					um.erase(sum);
-                    tmp = tmp->next;
-				}
-				prev->next = node->next;
-			} else {
-				um[cnt] = node;
-			}
-			node = node->next;
-		}
-
-		return dummy->next;
+        return dummy->next;
     }
-
-	ListNode* removeZeroSumSublists(ListNode *head) {
-		if (!head) { return head; }
-
-		auto dummy = new ListNode(0);
-		dummy->next = head;
-		unordered_map<int, ListNode *> um;
-		um[0] = dummy;
-		auto node = head;
-		int cnt = 0;
-		while (node) {
-			cnt += node->val;
-			if (um.find(cnt) != um.end()) {
-				auto prev = um[cnt];
-				auto prevNext = prev->next;
-				int sum = cnt;
-				while (prevNext != node) {
-					sum += prevNext->val;
-					um.erase(sum);
-					prevNext = prevNext->next;
-				}
-				prev->next = node->next;
-			} else {
-				um[cnt] = node;
-			}
-		}
-		return dummy->next;
-	}
 };
