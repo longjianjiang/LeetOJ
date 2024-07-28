@@ -11,33 +11,32 @@
 class Solution {
 public:
     ListNode* removeZeroSumSublists(ListNode* head) {
-        if (!head || !head->next) { return head;}
-        auto dummy = new ListNode(0, head);
+        if (!head) { return head; }
+        // if (!head->next && head->val == 0) { return NULL; }
 
+        auto dummy = new ListNode(0, head);
         unordered_map<int, ListNode *> sumMap;
         sumMap[0] = dummy;
 
         auto node = head;
         int sum = 0;
-
         while (node) {
-            int val = node->val;
-            sum += val;
-            if (sumMap.find(sum) == sumMap.end()) {
-                sumMap[sum] = node;
-            } else {
-                auto start = sumMap[sum]->next;
-                int tmpSum = sum;
-                while (start != node) {
-                    tmpSum += start->val;
-                    sumMap.erase(tmpSum);
-                    start = start->next;
+            sum += node->val;
+            if (sumMap.find(sum) != sumMap.end()) {
+                auto prev = sumMap[sum]->next;
+                int cnt = sum;
+                while (prev != node) {
+                    cnt += prev->val;
+                    sumMap.erase(cnt);
+                    prev = prev->next;
                 }
                 sumMap[sum]->next = node->next;
+            } else {
+                sumMap[sum] = node;
             }
-
             node = node->next;
         }
+
         return dummy->next;
     }
 };
